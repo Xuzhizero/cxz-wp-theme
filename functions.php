@@ -28,3 +28,76 @@ function cxz_wp_theme_scripts() {
 	wp_enqueue_style( 'cxz-wp-theme-style', get_stylesheet_uri(), array(), '1.0.0' );
 }
 add_action( 'wp_enqueue_scripts', 'cxz_wp_theme_scripts' );
+
+// ===== 加载核心样式和脚本（来自 Chennative.ai）=====
+add_action( 'wp_enqueue_scripts', function () {
+	wp_enqueue_style(
+		'cxz-chennative-style',
+		'https://Chennative.ai/styles.css',
+		array(),
+		'190'
+	);
+	wp_enqueue_script(
+		'cxz-chennative-script',
+		'https://Chennative.ai/assets/script.js',
+		array(),
+		null,
+		true
+	);
+}, 1 );
+
+// ===== 首页：彻底移除所有干扰样式 =====
+add_action( 'wp_enqueue_scripts', function () {
+	if ( ! is_front_page() ) {
+		return;
+	}
+
+	// WordPress 核心样式
+	wp_dequeue_style( 'wp-block-library' );
+	wp_dequeue_style( 'wp-block-library-theme' );
+	wp_dequeue_style( 'global-styles' );
+	wp_dequeue_style( 'classic-theme-styles' );
+	wp_dequeue_style( 'core-block-supports' );
+
+	// Astra 主题样式（如果存在）
+	wp_dequeue_style( 'astra-theme-css' );
+	wp_dequeue_style( 'astra-addon-css' );
+	wp_dequeue_style( 'astra-builder-layout' );
+
+	// 其他可能的干扰
+	wp_dequeue_style( 'dashicons' );
+
+}, 100 );
+
+// ===== 移除 wp_head 中的内联样式 =====
+add_action( 'wp_head', function () {
+	if ( ! is_front_page() ) {
+		return;
+	}
+
+	// 移除 Astra 内联 CSS（如果存在）
+	remove_action( 'wp_head', 'astra_load_inline_css', 20 );
+
+}, 1 );
+
+// ===== 首页：移除 Astra 的 body 类干扰 =====
+add_filter( 'body_class', function ( $classes ) {
+	if ( is_front_page() ) {
+		// 保留必要的类，移除 Astra 特定类
+		$remove = array( 'ast-', 'astra-', 'site-', 'elementor-' );
+		foreach ( $classes as $key => $class ) {
+			foreach ( $remove as $prefix ) {
+				if ( strpos( $class, $prefix ) === 0 ) {
+					unset( $classes[ $key ] );
+				}
+			}
+		}
+	}
+	return $classes;
+} );
+
+// ===== 移除 WordPress Emoji 脚本（减少干扰）=====
+add_action( 'init', function () {
+	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+	remove_action( 'wp_print_styles', 'print_emoji_styles' );
+} );
