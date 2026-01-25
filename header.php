@@ -23,7 +23,7 @@
 					<a class="logo__link" href="<?php echo esc_url( home_url( '/' ) ); ?>">
 						<img
 							class="logo__image"
-							src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/Profile.jpg' ); ?>"
+								src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/Profile.jpg' ); ?>"
 							alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>"
 						/>
 						<span class="logo__text"><?php bloginfo( 'name' ); ?></span>
