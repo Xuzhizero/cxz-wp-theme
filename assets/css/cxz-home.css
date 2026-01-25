@@ -1,13 +1,13 @@
 /* CXZ Home styles (ported from ~/temp/front-page.php and adapted to WP theme) */
 
-/* ===== WordPress alignment fixes (from original inline CSS) ===== */
+/* ===== Baseline reset (align with Untitled-15.html) ===== */
 html,
 body {
-  background: #000 !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  margin: 0;
+  padding: 0;
   width: 100%;
   height: 100%;
+  background: var(--background-color);
 }
 
 body {
@@ -15,6 +15,7 @@ body {
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 :root {
@@ -38,6 +39,16 @@ html.mode-light {
   --link-color: #1c0a05;
   --link-color-hover: #ff2a2a;
   --border-color: #e6e6e6;
+
+  /* UI surfaces */
+  --surface-1: var(--background-alt-color);
+  --surface-2: rgba(255, 255, 255, 0.65);
+  --header-bg: rgba(250, 249, 246, 0.82);
+  --header-border: rgba(0, 0, 0, 0.06);
+  --header-text: var(--heading-font-color);
+  --overlay-bg: rgba(250, 249, 246, 0.92);
+  --overlay-surface: rgba(255, 255, 255, 0.8);
+  --hero-overlay: transparent;
 }
 
 html.mode-dark {
@@ -50,6 +61,21 @@ html.mode-dark {
   --link-color: #f0f0f0;
   --link-color-hover: #e07e38;
   --border-color: #303237;
+
+  /* UI surfaces */
+  --surface-1: var(--background-alt-color);
+  --surface-2: rgba(255, 255, 255, 0.06);
+  --header-bg: rgba(0, 0, 0, 0.62);
+  --header-border: rgba(255, 255, 255, 0.10);
+  --header-text: #fff;
+  --overlay-bg: rgba(0, 0, 0, 0.88);
+  --overlay-surface: rgba(255, 255, 255, 0.06);
+  --hero-overlay: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.25) 0%,
+    rgba(0, 0, 0, 0.55) 60%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
 }
 
 body {
@@ -123,9 +149,9 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--header-bg);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--header-border);
 }
 
 .header__inner {
@@ -153,7 +179,7 @@ a:hover {
   font-family: var(--heading-font-family);
   font-weight: 700;
   letter-spacing: 0.2px;
-  color: #fff;
+  color: var(--header-text);
 }
 
 .hamburger {
@@ -163,7 +189,7 @@ a:hover {
   display: none;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--header-border);
   cursor: pointer;
 }
 
@@ -174,7 +200,7 @@ a:hover {
   display: block;
   width: 18px;
   height: 2px;
-  background: #fff;
+  background: var(--header-text);
   border-radius: 2px;
   position: relative;
 }
@@ -204,7 +230,7 @@ a:hover {
 }
 
 .nav__link {
-  color: #fff;
+  color: var(--header-text);
   opacity: 0.9;
   font-weight: 600;
 }
@@ -222,7 +248,7 @@ a:hover {
 .color-mode-toggler a {
   cursor: pointer;
   user-select: none;
-  color: #fff;
+  color: var(--header-text);
   opacity: 0.9;
   font-size: 14px;
   display: inline-flex;
@@ -240,7 +266,7 @@ a:hover {
 
 .lang-label {
   cursor: pointer;
-  color: #fff;
+  color: var(--header-text);
   opacity: 0.9;
   display: inline-flex;
   align-items: center;
@@ -252,8 +278,8 @@ a:hover {
   position: absolute;
   right: 0;
   top: calc(100% + 10px);
-  background: rgba(0, 0, 0, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--surface-1);
+  border: 1px solid var(--border-color);
   border-radius: 14px;
   padding: 10px;
   min-width: 180px;
@@ -268,13 +294,13 @@ a:hover {
   display: block;
   padding: 10px 12px;
   border-radius: 10px;
-  color: #fff;
+  color: var(--heading-font-color);
   opacity: 0.9;
 }
 
 #lang-selector a:hover,
 #lang-selector a.active {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--surface-2);
   opacity: 1;
 }
 
@@ -284,7 +310,7 @@ a:hover {
 
 .nav-search-button {
   cursor: pointer;
-  color: #fff;
+  color: var(--header-text);
   opacity: 0.9;
   display: inline-flex;
   align-items: center;
@@ -302,8 +328,8 @@ a:hover {
   .main-nav {
     position: fixed;
     inset: 70px 16px auto 16px;
-    background: rgba(0, 0, 0, 0.92);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--overlay-bg);
+    border: 1px solid var(--border-color);
     border-radius: 18px;
     padding: 16px;
     flex-direction: column;
@@ -343,7 +369,7 @@ a:hover {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.55) 60%, rgba(0, 0, 0, 0.75) 100%);
+  background: var(--hero-overlay);
   pointer-events: none;
 }
 
@@ -383,10 +409,11 @@ a:hover {
 }
 
 .article {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: var(--surface-1);
+  border: 1px solid var(--border-color);
   border-radius: 18px;
   overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
 }
 
 .article__image {
@@ -431,7 +458,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.55);
   color: #fff;
 }
 
@@ -458,7 +485,7 @@ a:hover {
 .search-wrapper {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.88);
+  background: var(--overlay-bg);
   display: none;
   z-index: 80;
   padding: 30px 0;
@@ -469,8 +496,8 @@ a:hover {
 }
 
 .search {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: var(--overlay-surface);
+  border: 1px solid var(--border-color);
   border-radius: 18px;
   padding: 16px;
 }
@@ -486,15 +513,15 @@ a:hover {
   border: none;
   outline: none;
   background: transparent;
-  color: #fff;
+  color: var(--heading-font-color);
   font-size: 16px;
   padding: 10px 8px;
 }
 
 .search-button {
   border: none;
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
+  background: var(--surface-2);
+  color: var(--heading-font-color);
   border-radius: 12px;
   padding: 10px 12px;
   cursor: pointer;
@@ -507,8 +534,8 @@ a:hover {
   width: 44px;
   height: 44px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--border-color);
+  background: var(--surface-2);
   cursor: pointer;
 }
 
@@ -518,8 +545,8 @@ a:hover {
 }
 
 .widget-box {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface-1);
+  border: 1px solid var(--border-color);
   border-radius: 18px;
   padding: 18px;
 }

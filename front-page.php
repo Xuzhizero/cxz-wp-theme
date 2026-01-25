@@ -17,186 +17,26 @@
   <meta property="og:title" content="CoolXuzhi" />
   <meta property="og:locale" content="en" />
 
-  <!-- ===== 关键修复1：CSS必须在head内 ===== -->
-  <style>
-    /* ===== WordPress 环境最小化重置（仅避免 WP 兜底样式干扰）===== */
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--background-color);
-    }
-    body {
-      overflow-x: hidden;
-      font-smoothing: antialiased;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
-
-      /* 对齐本地 Untitled-15.html 的“书页感”排版基线 */
-      font-family: var(--base-font-family);
-      font-size: var(--base-font-size);
-      line-height: var(--base-line-height);
-      color: var(--text-color);
-      background: var(--background-color);
-    }
-    /* ===== 结束 ===== */
-
-    :root {
-      --base-font-family: Libre Baskerville, Noto Sans,-apple-system, BlinkMacSystemFont, Segoe UI, Ubuntu, Cantarell, Helvetica, Arial, sans-serif;
-      --heading-font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Ubuntu, Cantarell, Helvetica, Arial, sans-serif;
-      --base-font-size: 18px;
-      --base-font-style: normal;
-      --base-font-weight: normal;
-      --base-line-height: 1.8;
-    }
-    .mode-light:root {
-      --color-accent:  #FF4612;
-      --background-color: #FAF9F6;
-      --background-alt-color: #fffefa;
-      --background-gradient-start: rgba(250,249,246, 0.25);
-      --background-gradient-end: rgba(250,249,246, 1);
-      --text-color:  #635F5A;
-      --text-alt-color:  #f3f3f3;
-      --heading-font-color:  #1c0f05;
-      --link-color:  #1c0a05;
-      --link-color-hover:  #ff2a2a;
-      --border-color:  #e6e6e6;
-      --code-color:  #eb5757;
-      --code-background-color:  #e6e6e6;
-    }
-    .mode-dark:root {
-      --color-accent:  #E26E41;
-      --background-color:  #1F1500;
-      --background-alt-color:  #141312;
-      --background-gradient-start: rgba(26,26,28, 0.25);
-      --background-gradient-end: rgba(26,26,28, 1);
-      --text-color:  #f0f0f0;
-      --text-alt-color: #fff;
-      --heading-font-color:  #f0f0f0;
-      --link-color:  #f0f0f0;
-      --link-color-hover:  #E07E38;
-      --border-color:  #303237;
-      --code-color:  #ababab;
-      --code-background-color:  #454545;
-    }
-    
-    /* Tall Cards for Belief Section Only */
-    .custom-tall-card {
-        min-height: 550px !important;
-        display: flex !important;
-        flex-direction: column !important;
-    }
-    .custom-tall-card .article__inner {
-        flex: 1 !important;
-        height: 100% !important;
-    }
-    .custom-tall-card .article__description {
-        display: block !important;
-        white-space: normal !important;
-        overflow: visible !important;
-        text-overflow: clip !important;
-        -webkit-line-clamp: unset !important;
-        height: auto !important;
-    }
-    
-    /* Footer Widget Alignment */
-    .widget-row-aligned {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .widget-col-equal {
-        display: flex;
-        flex-direction: column;
-    }
-    .widget-box-equal {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 450px;
-    }
-    /* Newsletter iframe scaling */
-    .newsletter-iframe-container {
-        flex: 1;
-        width: 100%;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .newsletter-iframe {
-        width: 74%;
-        height: 74%;
-        transform: scale(1.35);
-        transform-origin: center center;
-        border: none;
-    }
-  </style>
-
-  <!-- ===== 关键修复2：颜色模式初始化脚本 ===== -->
+  <!-- ===== 本地化资源：替代已失效的 Chennative.ai 远程 CSS/JS ===== -->
   <script>
-    window._hb = {
-        __domain: "blogs.hyvor.com",
-        subdomain: "coolxuzhi",
-        color_modes: "both",
-        color_mode_default: "os",
-        base_url: "https://CoolXuzhi.com"
-    };
-    (function() {
-        var lsKey = 'color-mode-pref';
-        window._hb.changeColorMode = function(pref, noSave) {
-            var renderMode = _hb.getColorMode(pref)
-            var a, r;
-            if (renderMode === 'dark') {
-                a = 'mode-dark';
-                r = 'mode-light';
-            } else {
-                a = 'mode-light';
-                r = 'mode-dark';
-            }
-            var html = document.documentElement;
-            html.classList.remove(r, 'mode-preference-light', 'mode-preference-dark', 'mode-preference-os');
-            html.classList.add(a, 'mode-preference-' + pref);
-            if (!noSave) {
-                try {localStorage.setItem(lsKey, pref)} catch (e) {}
-            }
-            window.dispatchEvent(new CustomEvent("hb:colorModeChanged", {
-                detail: { mode: renderMode }
-            }))
-        }
-        window._hb.getColorModePreference = function() {
-            var ls = null;
-            try { ls = localStorage.getItem(lsKey) } catch (e) {}
-            return ls || _hb.color_mode_default;
-        }
-        window._hb.getColorMode = function(pref) {
-            var mode = pref || _hb.getColorModePreference();
-            if (mode === 'os') {
-                mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            }
-            return mode
-        }
-        _hb.changeColorMode(
-            _hb.color_modes !== "both" ? _hb.color_modes : _hb.getColorModePreference(),
-            true
-        )
-        window._hb.dataApi = function(version, endpoint, params, onSuccess, onError) {
-            var url = "//" + _hb.__domain + "/api/data/" + version + "/" + _hb.subdomain + "/" + endpoint
-                + (params ? ("?" + new URLSearchParams(params || {}).toString()) : "");
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function() { onSuccess(JSON.parse(this.responseText)) }
-            xhr.onerror = function() { onError && onError() }
-            xhr.open('GET', url, true)
-            xhr.send();
-            return xhr;
-        }
-    })()
+    // 仅用于首屏提前设置 mode-light/mode-dark，避免闪烁
+    (function () {
+      var lsKey = "color-mode-pref";
+      var pref = null;
+      try { pref = localStorage.getItem(lsKey); } catch (e) {}
+      pref = pref || "os";
+      var mode = pref;
+      if (mode === "os") {
+        mode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      var html = document.documentElement;
+      html.classList.remove("mode-light", "mode-dark");
+      html.classList.add(mode === "dark" ? "mode-dark" : "mode-light");
+      html.classList.add("mode-preference-" + pref);
+    })();
   </script>
-
-  <link rel="stylesheet" href="https://Chennative.ai/styles.css?v=190" />
-  <script src="https://Chennative.ai/assets/script.js"></script>
+  <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/cxz-home.css?ver=20260125-1" />
+  <script src="<?php echo get_stylesheet_directory_uri(); ?>/assets/js/cxz-home.js?ver=20260125-1" defer></script>
 
   <?php wp_head(); ?>
 </head>
@@ -563,13 +403,6 @@
     </div>
   </div>
 </footer>
-
-<script data-flashload-skip-script src="https://Chennative.ai/assets/flashload.js" async onload="__initFlashload()"></script>
-<script data-flashload-skip-script>
-  function __initFlashload() {
-    Flashload.start({ basePath: "" })
-  }
-</script>
 
 <?php wp_footer(); ?>
 </body>
