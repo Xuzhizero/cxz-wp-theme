@@ -93,32 +93,28 @@
     <div class="hero-image__inner">
       <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/image-17.jpg" alt="CoolXuzhi" loading="lazy">
     </div>
-  </div>
-  
-  <section class="hero">
-    <div class="container">
-      <div class="row">
-        <div class="col col-12">
-          <div class="hero__inner">
-            <h1 class="hero__title">CoolXuzhi</h1>
+
+    <!-- Hero content overlays the image (matches target screenshot) -->
+    <div class="hero-image__content">
+      <div class="container">
+        <div class="row">
+          <div class="col col-12">
+            <div class="hero__inner">
+              <h1 class="hero__title">CoolXuzhi</h1>
+              <div class="homepage-intro">
+                <div class="homepage-intro__content">
+                  <h3>Fulfill the great historic mission of motherland's wholeness.  Propel the resolution of our nation's primary contradictions.</h3>
+                  <h3>Forge silicon colts amid the ocean's vastness. Comprehend the marine world in all its richness.</h3>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
   <div class="container">
-    <div class="row">
-      <div class="col col-12">
-        <div class="homepage-intro">
-          <div class="homepage-intro__content">
-            <h3>Fulfill the great historic mission of motherland's wholeness.  Propel the resolution of our nation's primary contradictions.</h3>
-            <h3>Forge silicon colts amid the ocean's vastness. Comprehend the marine world in all its richness.</h3>
-          </div>
-        </div>
-      </div>
-    </div>
-    
     <div class="row">
       <div class="tag-group">
         <div class="container">
