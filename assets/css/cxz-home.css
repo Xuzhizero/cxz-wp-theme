@@ -18,6 +18,10 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+:where(*, *::before, *::after) {
+  box-sizing: border-box;
+}
+
 :root {
   --base-font-family: "Libre Baskerville", "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Ubuntu, Cantarell, Helvetica, Arial, sans-serif;
@@ -138,6 +142,7 @@ a:hover {
 
 .col-4 {
   flex: 0 0 calc((100% - 48px) / 3);
+  max-width: calc((100% - 48px) / 3);
 }
 
 @media (max-width: 1024px) {
@@ -165,9 +170,15 @@ a:hover {
   left: 0;
   right: 0;
   z-index: 80;
-  background: var(--header-bg);
-  backdrop-filter: blur(12px);
+  background: transparent;
   border-bottom: 0;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.header.is-hidden {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
 }
 
 .header__inner {
@@ -273,6 +284,26 @@ a:hover {
 }
 
 .color-mode-toggler a:hover {
+  opacity: 1;
+}
+
+.color-mode-toggle {
+  cursor: pointer;
+  user-select: none;
+  color: var(--header-text);
+  opacity: 0.9;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+}
+
+.color-mode-toggle:hover {
   opacity: 1;
 }
 
@@ -583,6 +614,19 @@ a:hover {
 /* ===== Footer widgets/footer ===== */
 .footer-widgets {
   padding: 40px 0;
+}
+
+/* Footer widgets must be 50/50 on desktop */
+.footer-widgets .widget-col-equal {
+  flex: 0 0 calc((100% - 24px) / 2);
+  max-width: calc((100% - 24px) / 2);
+}
+
+@media (max-width: 768px) {
+  .footer-widgets .widget-col-equal {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }
 
 .widget-box {

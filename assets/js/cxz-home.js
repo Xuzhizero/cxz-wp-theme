@@ -95,6 +95,20 @@
     return document.querySelector(sel);
   }
 
+  function updateColorModeToggleLabel() {
+    var el = $("#color-mode-toggle-label");
+    if (!el) return;
+    var isDark = document.documentElement.classList.contains("mode-dark");
+    // 显示“下一步将切换到什么模式”
+    el.textContent = isDark ? "Light" : "Dark";
+  }
+
+  function toggleColorModeImpl() {
+    var isDark = document.documentElement.classList.contains("mode-dark");
+    window._hb.changeColorMode(isDark ? "light" : "dark");
+    updateColorModeToggleLabel();
+  }
+
   function menuToggleImpl() {
     var menu = $("#menuList");
     if (!menu) return;
@@ -124,6 +138,35 @@
   // Expose for inline onclick handlers already in markup
   window.menuToggle = menuToggleImpl;
   window.toggleLanguageDropdown = toggleLanguageDropdownImpl;
+  window.toggleColorMode = toggleColorModeImpl;
+
+  // Init label and keep it in sync
+  updateColorModeToggleLabel();
+  window.addEventListener("hb:colorModeChanged", updateColorModeToggleLabel);
+
+  // ===== Header visibility: only show at very top =====
+  (function () {
+    var header = document.querySelector(".header");
+    if (!header) return;
+    var lastHidden = null;
+    function syncHeaderVisibility() {
+      var y = window.scrollY || 0;
+      var shouldHide = y > 10;
+      if (lastHidden === shouldHide) return;
+      lastHidden = shouldHide;
+      header.classList.toggle("is-hidden", shouldHide);
+      if (shouldHide) {
+        // close mobile menu / dropdowns when leaving top
+        var menu = $("#menuList");
+        if (menu) menu.classList.remove("is-open");
+        var dd = $("#lang-selector");
+        if (dd) dd.classList.remove("is-open");
+        closeSearch();
+      }
+    }
+    syncHeaderVisibility();
+    window.addEventListener("scroll", syncHeaderVisibility, { passive: true });
+  })();
 
   document.addEventListener("click", function (e) {
     var target = e.target;
