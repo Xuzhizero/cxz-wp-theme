@@ -47,12 +47,13 @@ html.mode-light {
   /* UI surfaces */
   --surface-1: var(--background-alt-color);
   --surface-2: rgba(255, 255, 255, 0.65);
-  --header-bg: rgba(250, 249, 246, 0.82);
+  --header-bg: rgba(250, 249, 246, 0.18);
   --header-border: rgba(0, 0, 0, 0.06);
   --header-text: var(--heading-font-color);
   --overlay-bg: rgba(250, 249, 246, 0.92);
   --overlay-surface: rgba(255, 255, 255, 0.8);
-  --hero-overlay: transparent;
+  /* soften/brighten hero so header text stays readable */
+  --hero-overlay: rgba(250, 249, 246, 0.55);
   --hero-fade: linear-gradient(
     to bottom,
     rgba(250, 249, 246, 0) 0%,
@@ -117,12 +118,12 @@ a:hover {
 
 /* ===== Layout helpers (minimal grid to replace remote css) ===== */
 .container {
-  width: min(1200px, calc(100% - 32px));
+  width: min(1400px, calc(100% - 64px));
   margin-inline: auto;
 }
 
 .container-big {
-  width: min(1400px, calc(100% - 32px));
+  width: min(1600px, calc(100% - 64px));
   margin-inline: auto;
 }
 
@@ -260,6 +261,7 @@ a:hover {
   color: var(--header-text);
   opacity: 0.9;
   font-weight: 600;
+  font-size: 15px;
 }
 
 .nav__link:hover {
@@ -277,7 +279,7 @@ a:hover {
   user-select: none;
   color: var(--header-text);
   opacity: 0.9;
-  font-size: 14px;
+  font-size: 15px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -292,7 +294,7 @@ a:hover {
   user-select: none;
   color: var(--header-text);
   opacity: 0.9;
-  font-size: 14px;
+  font-size: 15px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -318,7 +320,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 #lang-selector {
@@ -408,7 +410,17 @@ a:hover {
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: saturate(1.05) contrast(1.05);
+  filter: saturate(1.03) contrast(1.02);
+}
+
+.hero-image__inner {
+  position: relative;
+  height: 100%;
+}
+
+html.mode-light .hero-image__inner img {
+  filter: blur(1.5px) brightness(1.15) saturate(0.92) contrast(0.95);
+  transform: scale(1.02);
 }
 
 .hero-image::before {
@@ -439,12 +451,13 @@ a:hover {
 }
 
 .hero__title {
-  font-family: var(--heading-font-family);
+  font-family: var(--base-font-family);
   color: var(--heading-font-color);
   font-weight: 800;
   font-size: clamp(40px, 5vw, 74px);
   margin: 0;
   text-align: center;
+  letter-spacing: 0.2px;
 }
 
 .hero__inner {
@@ -478,6 +491,46 @@ a:hover {
   color: var(--heading-font-color);
   font-weight: 800;
   font-size: 28px;
+}
+
+/* ===== About Me layout: image aligns with text top/bottom ===== */
+.about-me__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 40px;
+  margin: 20px 0 50px;
+}
+
+.about-me__image-wrap {
+  flex: 0 0 300px;
+  min-width: 260px;
+  align-self: stretch;
+}
+
+.about-me__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.10);
+}
+
+.about-me__text {
+  flex: 1;
+  min-width: 300px;
+  font-family: var(--base-font-family);
+  color: var(--text-color);
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.about-me__text p {
+  margin: 0 0 1em;
+}
+
+.about-me__text p:last-child {
+  margin-bottom: 0;
 }
 
 .article {

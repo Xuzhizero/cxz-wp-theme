@@ -8,13 +8,13 @@
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>CoolXuzhi</title>
+  <title>CoolXuZhi</title>
   <meta name="description" content="" />
   <link rel="canonical" href="https://CoolXuzhi.com" />
   <link rel="shortcut icon" href="https://Chennative.ai/media/blog-icon-2.svg" />
-  <meta property="og:site_name" content="CoolXuzhi" />
+  <meta property="og:site_name" content="CoolXuZhi" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="CoolXuzhi" />
+  <meta property="og:title" content="CoolXuZhi" />
   <meta property="og:locale" content="en" />
 
   <!-- ===== 本地化资源：替代已失效的 Chennative.ai 远程 CSS/JS ===== -->
@@ -49,7 +49,7 @@
       <div class="header__inner col col-12">
         <div class="logo">
           <a class="logo__link" href="https://CoolXuzhi.com">
-              <img class="logo__image" src="https://Chennative.ai/media/blog-2.svg" alt="CoolXuzhi"/>
+              <img class="logo__image" src="<?php echo get_stylesheet_directory_uri(); ?>/assets/logo.svg" alt="CoolXuZhi"/>
           </a>
         </div>
         <div class="hamburger" onclick="menuToggle()" id="hamburger">
@@ -92,7 +92,7 @@
 <main class="content" role="main" aria-label="Content">
   <div class="hero-image">
     <div class="hero-image__inner">
-      <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/image-17.jpg" alt="CoolXuzhi" loading="lazy">
+      <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/image-17.jpg" alt="CoolXuZhi" loading="lazy">
     </div>
 
     <!-- Hero content overlays the image (matches target screenshot) -->
@@ -101,7 +101,7 @@
         <div class="row">
           <div class="col col-12">
             <div class="hero__inner">
-              <h1 class="hero__title">CoolXuzhi</h1>
+              <h1 class="hero__title">CoolXuZhi</h1>
               <div class="homepage-intro">
                 <div class="homepage-intro__content">
                   <h3>Fulfill the great historic mission of motherland's wholeness.  Propel the resolution of our nation's primary contradictions.</h3>
@@ -181,14 +181,14 @@
 
           <div class="row">
             <div class="col col-12">
-                <div style="display: flex; flex-wrap: wrap; align-items: flex-start; margin-bottom: 50px; margin-top: 20px;">
-                    <div style="flex: 0 0 300px; padding-right: 40px; margin-bottom: 20px;">
-                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/Profile.jpg" alt="Profile" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                <div class="about-me__row">
+                    <div class="about-me__image-wrap">
+                        <img class="about-me__image" src="<?php echo get_stylesheet_directory_uri(); ?>/assets/Profile.jpg" alt="Profile">
                     </div>
-                    <div style="flex: 1; min-width: 300px; font-family: var(--base-font-family); color: var(--text-color); font-size: 18px; line-height: 1.8;">
-                        <p style="margin-bottom: 1em;">Like for you, life has many aspects for me.</p>
-                        <p style="margin-bottom: 1em;">I am an engineer working on digital twins and intelligent maritime systems, a project coordinator navigating between simulation, control, and visualization, and a long-term builder at the intersection of technology, systems, and real-world application. I work with models, code, virtual environments, and people—often at the same time.</p>
-                        <p style="margin-bottom: 1em;">Through years of technical work and project responsibility, I've come to realize that beneath all complexity, life is about understanding systems: how things truly work, how uncertainty emerges, and how order can be built with clarity and patience.</p>
+                    <div class="about-me__text">
+                        <p>Like for you, life has many aspects for me.</p>
+                        <p>I am an engineer working on digital twins and intelligent maritime systems, a project coordinator navigating between simulation, control, and visualization, and a long-term builder at the intersection of technology, systems, and real-world application. I work with models, code, virtual environments, and people—often at the same time.</p>
+                        <p>Through years of technical work and project responsibility, I've come to realize that beneath all complexity, life is about understanding systems: how things truly work, how uncertainty emerges, and how order can be built with clarity and patience.</p>
                         <p>Through this space, I share my ongoing exploration—of technology, work, and self-development—with those who value depth over noise, long-term growth over quick wins, and the possibility of building something meaningful while staying honest with oneself.</p>
                     </div>
                 </div>
@@ -329,7 +329,7 @@
             <div class="col col-4 col-d-6 col-t-12 widget-col-equal">
               <div class="widget widget-newsletter widget-box-equal">
                 <div class="widget__head">
-                  <h3 class="widget__title">Newsletter</h3>
+                  <h3 class="widget__title">Subscribe For More</h3>
                 </div>
                 <div class="newsletter__content newsletter-iframe-container">
                   <iframe class="newsletter-iframe" src="https://mindful-palette-322177.framer.app/newsletter-chennative" frameborder="0" loading="lazy"></iframe>
