@@ -1,3 +1,4 @@
+<!-- CXZ-FRONT-PAGE:2026-01-24 -->
 <?php
 // 独立首页：不调用主题 get_header/get_footer，避免主题导航/容器影响布局
 ?>
@@ -594,4 +595,5 @@
 
 <?php wp_footer(); ?>
 </body>
+
 </html>
