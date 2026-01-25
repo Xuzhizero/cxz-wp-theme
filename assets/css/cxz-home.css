@@ -127,6 +127,13 @@ a:hover {
   margin-inline: auto;
 }
 
+@media (max-width: 768px) {
+  .container,
+  .container-big {
+    width: calc(100% - 32px);
+  }
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -261,7 +268,7 @@ a:hover {
   color: var(--header-text);
   opacity: 0.9;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .nav__link:hover {
@@ -279,7 +286,7 @@ a:hover {
   user-select: none;
   color: var(--header-text);
   opacity: 0.9;
-  font-size: 15px;
+  font-size: 16px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -294,7 +301,7 @@ a:hover {
   user-select: none;
   color: var(--header-text);
   opacity: 0.9;
-  font-size: 15px;
+  font-size: 16px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -320,7 +327,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 #lang-selector {
@@ -401,7 +408,9 @@ a:hover {
 /* ===== Hero ===== */
 .hero-image {
   position: relative;
-  height: clamp(520px, 78vh, 820px);
+  height: 70vh;
+  min-height: 560px;
+  max-height: 900px;
   overflow: hidden;
 }
 
@@ -469,7 +478,7 @@ html.mode-light .hero-image__inner img {
 .homepage-intro {
   padding: 0;
   text-align: center;
-  max-width: 820px;
+  max-width: 1100px;
 }
 
 .homepage-intro h3 {
@@ -478,6 +487,13 @@ html.mode-light .hero-image__inner img {
   color: var(--heading-font-color);
   font-weight: 500;
   opacity: 0.95;
+}
+
+/* Force each motto line to stay on one line on desktop */
+@media (min-width: 900px) {
+  .homepage-intro h3 {
+    white-space: nowrap;
+  }
 }
 
 /* ===== Tag groups & cards ===== */
@@ -503,22 +519,23 @@ html.mode-light .hero-image__inner img {
 }
 
 .about-me__image-wrap {
-  flex: 0 0 300px;
-  min-width: 260px;
+  flex: 0 0 360px;
+  min-width: 300px;
   align-self: stretch;
 }
 
 .about-me__image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: var(--surface-1);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.10);
 }
 
 .about-me__text {
   flex: 1;
-  min-width: 300px;
+  min-width: 260px;
   font-family: var(--base-font-family);
   color: var(--text-color);
   font-size: 18px;

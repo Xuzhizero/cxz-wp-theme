@@ -51,7 +51,7 @@
 								</div>
 								<div class="recent-post">
 									<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="recent-post__image" aria-hidden="true">
-										<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/image-17.jpg' ); ?>" alt="Recent Post" loading="lazy">
+										<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-01.svg' ); ?>" alt="Recent Post" loading="lazy">
 									</a>
 									<div class="recent-post__content">
 										<time class="recent-post__date" datetime="2025-12-30">Dec 30, 2025</time>
@@ -60,7 +60,7 @@
 								</div>
 								<div class="recent-post">
 									<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="recent-post__image" aria-hidden="true">
-										<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/image-17.jpg' ); ?>" alt="Recent Post" loading="lazy">
+										<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-02.svg' ); ?>" alt="Recent Post" loading="lazy">
 									</a>
 									<div class="recent-post__content">
 										<time class="recent-post__date" datetime="2025-12-29">Dec 29, 2025</time>
@@ -69,7 +69,7 @@
 								</div>
 								<div class="recent-post">
 									<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="recent-post__image" aria-hidden="true">
-										<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/image-17.jpg' ); ?>" alt="Recent Post" loading="lazy">
+										<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-03.svg' ); ?>" alt="Recent Post" loading="lazy">
 									</a>
 									<div class="recent-post__content">
 										<time class="recent-post__date" datetime="2025-12-26">Dec 26, 2025</time>
@@ -81,7 +81,7 @@
 						<div class="col col-4 col-d-6 col-t-12 widget-col-equal">
 							<div class="widget widget-newsletter widget-box-equal">
 								<div class="widget__head">
-									<h3 class="widget__title">Newsletter</h3>
+									<h3 class="widget__title">Subscribe For More</h3>
 								</div>
 								<div class="newsletter__content newsletter-iframe-container">
 									<iframe class="newsletter-iframe" src="https://mindful-palette-322177.framer.app/newsletter-chennative" frameborder="0" loading="lazy"></iframe>
@@ -136,7 +136,7 @@
 						</ul>
 					</div>
 					<div style="text-align: right;">
-						<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/Profile.jpg' ); ?>" alt="Profile Picture" style="max-width: 100%; width: 350px; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+						<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/Profile.jpg' ); ?>" alt="Profile Picture" style="max-width: 100%; width: 350px; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
 					</div>
 				</div>
 			</div>
