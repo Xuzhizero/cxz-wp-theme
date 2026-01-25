@@ -19,52 +19,30 @@
 
   <!-- ===== 关键修复1：CSS必须在head内 ===== -->
   <style>
-    /* ===== WordPress 环境对齐修正（关键） ===== */
-    html, body {
-      background: #000 !important;
-      margin: 0 !important;
-      padding: 0 !important;
+    /* ===== WordPress 环境最小化重置（仅避免 WP 兜底样式干扰）===== */
+    html,
+    body {
+      margin: 0;
+      padding: 0;
       width: 100%;
       height: 100%;
+      background: var(--background-color);
     }
     body {
       overflow-x: hidden;
       font-smoothing: antialiased;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-    }
-    .hero-image,
-    .hero-image::before,
-    .hero-image::after {
-      background-color: transparent !important;
-    }
-    .hero-image::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(
-        ellipse at center,
-        rgba(0,0,0,0.25) 0%,
-        rgba(0,0,0,0.55) 60%,
-        rgba(0,0,0,0.75) 100%
-      );
-      pointer-events: none;
-    }
-    .hero,
-    .container,
-    .content,
-    main {
-      position: relative;
-      z-index: 2;
-    }
-    .container,
-    .container-big {
-      max-width: none !important;
-    }
-    body, p, h1, h2, h3, h4 {
       text-rendering: optimizeLegibility;
+
+      /* 对齐本地 Untitled-15.html 的“书页感”排版基线 */
+      font-family: var(--base-font-family);
+      font-size: var(--base-font-size);
+      line-height: var(--base-line-height);
+      color: var(--text-color);
+      background: var(--background-color);
     }
-    /* ===== 修正结束 ===== */
+    /* ===== 结束 ===== */
 
     :root {
       --base-font-family: Libre Baskerville, Noto Sans,-apple-system, BlinkMacSystemFont, Segoe UI, Ubuntu, Cantarell, Helvetica, Arial, sans-serif;
