@@ -49,6 +49,13 @@ html.mode-light {
   --overlay-bg: rgba(250, 249, 246, 0.92);
   --overlay-surface: rgba(255, 255, 255, 0.8);
   --hero-overlay: transparent;
+  --hero-fade: linear-gradient(
+    to bottom,
+    rgba(250, 249, 246, 0) 0%,
+    rgba(250, 249, 246, 0.15) 35%,
+    rgba(250, 249, 246, 0.75) 72%,
+    rgba(250, 249, 246, 1) 100%
+  );
 }
 
 html.mode-dark {
@@ -75,6 +82,13 @@ html.mode-dark {
     rgba(0, 0, 0, 0.25) 0%,
     rgba(0, 0, 0, 0.55) 60%,
     rgba(0, 0, 0, 0.75) 100%
+  );
+  --hero-fade: linear-gradient(
+    to bottom,
+    rgba(31, 21, 0, 0) 0%,
+    rgba(31, 21, 0, 0.25) 50%,
+    rgba(31, 21, 0, 0.7) 78%,
+    rgba(31, 21, 0, 1) 100%
   );
 }
 
@@ -146,12 +160,14 @@ a:hover {
 
 /* ===== Header / Nav ===== */
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 50;
+  left: 0;
+  right: 0;
+  z-index: 80;
   background: var(--header-bg);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--header-border);
+  border-bottom: 0;
 }
 
 .header__inner {
@@ -352,8 +368,7 @@ a:hover {
 /* ===== Hero ===== */
 .hero-image {
   position: relative;
-  height: 46vh;
-  min-height: 320px;
+  height: clamp(520px, 78vh, 820px);
   overflow: hidden;
 }
 
@@ -365,16 +380,31 @@ a:hover {
   filter: saturate(1.05) contrast(1.05);
 }
 
+.hero-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--hero-fade);
+  pointer-events: none;
+  z-index: 1;
+}
+
 .hero-image::after {
   content: "";
   position: absolute;
   inset: 0;
   background: var(--hero-overlay);
   pointer-events: none;
+  z-index: 2;
 }
 
-.hero {
-  padding: 44px 0 18px;
+.hero-image__content {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  align-items: center;
+  padding-top: 68px; /* header overlay space */
 }
 
 .hero__title {
@@ -383,16 +413,27 @@ a:hover {
   font-weight: 800;
   font-size: clamp(40px, 5vw, 74px);
   margin: 0;
+  text-align: center;
+}
+
+.hero__inner {
+  display: grid;
+  gap: 18px;
+  justify-items: center;
 }
 
 .homepage-intro {
-  padding: 24px 0 16px;
+  padding: 0;
+  text-align: center;
+  max-width: 820px;
 }
 
 .homepage-intro h3 {
   margin: 0 0 12px;
   font-family: var(--heading-font-family);
   color: var(--heading-font-color);
+  font-weight: 500;
+  opacity: 0.95;
 }
 
 /* ===== Tag groups & cards ===== */
@@ -579,15 +620,106 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 220px;
 }
 .newsletter-iframe {
-  width: 74%;
-  height: 74%;
-  transform: scale(1.35);
-  transform-origin: center center;
+  width: 100%;
+  height: 220px;
+  transform: none;
   border: none;
 }
 
 .footer {
   padding: 26px 0 40px;
+}
+
+/* ===== Recent posts widget (missing in earlier pass) ===== */
+.widget-recent .recent-post {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.widget-recent .recent-post + .recent-post {
+  border-top: 1px solid var(--border-color);
+}
+
+.recent-post__image {
+  display: block;
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.recent-post__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.recent-post__date {
+  display: block;
+  font-family: var(--heading-font-family);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  opacity: 0.65;
+  margin-bottom: 4px;
+}
+
+.recent-post__title {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.recent-post__title a {
+  color: var(--heading-font-color);
+}
+
+.recent-post__title a:hover {
+  color: var(--color-accent);
+}
+
+/* ===== Topics in search overlay ===== */
+.popular-title {
+  margin: 16px 0 10px;
+  font-family: var(--heading-font-family);
+  color: var(--heading-font-color);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.popular-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.popular-tags a {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: var(--surface-2);
+  color: var(--heading-font-color);
+  font-family: var(--heading-font-family);
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.popular-tags a:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  opacity: 1;
 }
