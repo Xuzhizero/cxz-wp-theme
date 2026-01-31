@@ -125,7 +125,7 @@
           <div class="row" style="display: flex; flex-wrap: wrap; justify-content: center;">
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
               <a href="<?php echo esc_url( home_url( '/twilight-of-management-ai-native-enterprise' ) ); ?>" class="article__image">
-                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/belief-01.svg' ); ?>" alt="I. L5 Unmanned Water Operations" loading="lazy">
+                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/belief-01.png' ); ?>" alt="I. L5 Unmanned Water Operations" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
@@ -139,7 +139,7 @@
 
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
               <a href="<?php echo esc_url( home_url( '/skeuomorphism-trap-ai-native-liquid-business' ) ); ?>" class="article__image">
-                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/belief-02.svg' ); ?>" alt="II. Pavlovian Robots" loading="lazy">
+                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/belief-02.png' ); ?>" alt="II. Pavlovian Robots" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
@@ -154,7 +154,7 @@
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
               <a href="<?php echo esc_url( home_url( '/human-responsibility-in-ai-native-era' ) ); ?>" class="article__image">
                 <span class="featured"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="14" height="14" fill="currentColor" style="vertical-align:middle"><path d="M394 480a16 16 0 01-9.39-3L256 383.76 127.39 477a16 16 0 01-24.55-18.08L153 310.35 23 221.2a16 16 0 019-29.2h160.38l48.4-148.95a16 16 0 0130.44 0l48.4 149H480a16 16 0 019.05 29.2L359 310.35l50.13 148.53A16 16 0 01394 480z"/></svg></span>
-                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/belief-03.svg' ); ?>" alt="III. Automated Surface Robots" loading="lazy">
+                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/belief-03.png' ); ?>" alt="III. Automated Surface Robots" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
@@ -295,7 +295,7 @@
                 </div>
                 <div class="recent-post">
                   <a href="<?php echo esc_url( home_url( '/ai-native-company-data-vs-privacy' ) ); ?>" class="recent-post__image" aria-hidden="true">
-                    <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-01.svg' ); ?>" alt="日志 I. AI 原生公司的开源日志：数据与隐私" loading="lazy">
+                    <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-01.png' ); ?>" alt="日志 I. AI 原生公司的开源日志：数据与隐私" loading="lazy">
                   </a>
                   <div class="recent-post__content">
                     <time class="recent-post__date" datetime="30-12-2025">2025-12-30</time>
@@ -304,7 +304,7 @@
                 </div>
                 <div class="recent-post">
                   <a href="<?php echo esc_url( home_url( '/pure-land-civilizational-protocol-superintelligence' ) ); ?>" class="recent-post__image" aria-hidden="true">
-                    <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-02.svg' ); ?>" alt="II. 净土" loading="lazy">
+                    <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-02.png' ); ?>" alt="II. 净土" loading="lazy">
                   </a>
                   <div class="recent-post__content">
                     <time class="recent-post__date" datetime="29-12-2025">2025-12-29</time>
@@ -313,7 +313,7 @@
                 </div>
                 <div class="recent-post">
                   <a href="<?php echo esc_url( home_url( '/human-responsibility-in-ai-native-era' ) ); ?>" class="recent-post__image" aria-hidden="true">
-                    <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-03.svg' ); ?>" alt="III. 我选择，我承担，故我在" loading="lazy">
+                    <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-03.png' ); ?>" alt="III. 我选择，我承担，故我在" loading="lazy">
                   </a>
                   <div class="recent-post__content">
                     <time class="recent-post__date" datetime="26-12-2025">2025-12-26</time>

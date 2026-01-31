@@ -51,7 +51,7 @@
 								</div>
 								<div class="recent-post">
 									<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="recent-post__image" aria-hidden="true">
-										<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-01.svg' ); ?>" alt="Recent Post" loading="lazy">
+										<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-01.png' ); ?>" alt="Recent Post" loading="lazy">
 									</a>
 									<div class="recent-post__content">
 										<time class="recent-post__date" datetime="2025-12-30">Dec 30, 2025</time>
@@ -60,7 +60,7 @@
 								</div>
 								<div class="recent-post">
 									<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="recent-post__image" aria-hidden="true">
-										<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-02.svg' ); ?>" alt="Recent Post" loading="lazy">
+										<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-02.png' ); ?>" alt="Recent Post" loading="lazy">
 									</a>
 									<div class="recent-post__content">
 										<time class="recent-post__date" datetime="2025-12-29">Dec 29, 2025</time>
@@ -69,7 +69,7 @@
 								</div>
 								<div class="recent-post">
 									<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="recent-post__image" aria-hidden="true">
-										<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-03.svg' ); ?>" alt="Recent Post" loading="lazy">
+										<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-03.png' ); ?>" alt="Recent Post" loading="lazy">
 									</a>
 									<div class="recent-post__content">
 										<time class="recent-post__date" datetime="2025-12-26">Dec 26, 2025</time>
