@@ -31,8 +31,9 @@ add_action( 'wp_enqueue_scripts', 'cxz_wp_theme_scripts' );
 
 // ===== 加载核心样式和脚本（来自 Chennative.ai）=====
 add_action( 'wp_enqueue_scripts', function () {
-	if ( is_front_page() ) {
+	if ( is_front_page() || is_page( 'zh-cn' ) ) {
 		// 首页由 front-page.php 直接输出并手动引入外部资源，
+		// /zh-cn/ 由 page-zh-cn.php 直接输出并手动引入本地化资源，
 		// 避免在这里重复 enqueue 导致脚本/样式重复加载（并被 LiteSpeed 进一步改写）。
 		return;
 	}
@@ -53,7 +54,7 @@ add_action( 'wp_enqueue_scripts', function () {
 
 // ===== 首页：彻底移除所有干扰样式 =====
 add_action( 'wp_enqueue_scripts', function () {
-	if ( ! ( is_front_page() || is_home() ) ) {
+	if ( ! ( is_front_page() || is_home() || is_page( 'zh-cn' ) ) ) {
 		return;
 	}
 
@@ -108,7 +109,7 @@ add_action( 'wp_enqueue_scripts', function () {
 
 // ===== 移除 wp_head 中的内联样式 =====
 add_action( 'wp_head', function () {
-	if ( ! ( is_front_page() || is_home() ) ) {
+	if ( ! ( is_front_page() || is_home() || is_page( 'zh-cn' ) ) ) {
 		return;
 	}
 
@@ -119,7 +120,7 @@ add_action( 'wp_head', function () {
 
 // ===== 首页：移除 Astra 的 body 类干扰 =====
 add_filter( 'body_class', function ( $classes ) {
-	if ( is_front_page() || is_home() ) {
+	if ( is_front_page() || is_home() || is_page( 'zh-cn' ) ) {
 		// 保留必要的类，移除 Astra 特定类
 		$remove = array( 'ast-', 'astra-', 'site-', 'elementor-' );
 		foreach ( $classes as $key => $class ) {

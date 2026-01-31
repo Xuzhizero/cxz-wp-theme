@@ -95,11 +95,22 @@
     return document.querySelector(sel);
   }
 
+  function getUiLang() {
+    var lang = (document.documentElement.getAttribute("lang") || "").toLowerCase();
+    if (lang.indexOf("zh") === 0) return "zh";
+    return "en";
+  }
+
   function updateColorModeToggleLabel() {
     var el = $("#color-mode-toggle-label");
     if (!el) return;
     var isDark = document.documentElement.classList.contains("mode-dark");
+    var uiLang = getUiLang();
     // 显示“下一步将切换到什么模式”
+    if (uiLang === "zh") {
+      el.textContent = isDark ? "明亮" : "暗色";
+      return;
+    }
     el.textContent = isDark ? "Light" : "Dark";
   }
 
