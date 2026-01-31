@@ -33,8 +33,8 @@
       html.classList.add("mode-preference-" + pref);
     })();
   </script>
-  <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/cxz-home.css?ver=20260125-2" />
-  <script src="<?php echo get_stylesheet_directory_uri(); ?>/assets/js/cxz-home.js?ver=20260125-2" defer></script>
+  <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/cxz-home.css?ver=20260131-1" />
+  <script src="<?php echo get_stylesheet_directory_uri(); ?>/assets/js/cxz-home.js?ver=20260131-1" defer></script>
 
   <?php wp_head(); ?>
 </head>
@@ -115,7 +115,7 @@
 
   <div class="container">
     <div class="row">
-      <div class="tag-group">
+      <div class="tag-group col col-12">
         <div class="container">
           <div class="row">
             <div class="col col-12">
@@ -169,7 +169,7 @@
         </div>
       </div>
 
-      <div class="tag-group">
+      <div class="tag-group col col-12">
         <div class="container">
           <div class="row">
             <div class="col col-12">
