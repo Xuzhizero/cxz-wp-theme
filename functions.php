@@ -139,3 +139,14 @@ add_action( 'init', function () {
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 	remove_action( 'wp_print_styles', 'print_emoji_styles' );
 } );
+
+// ===== /zh-cn/：强制使用我们的自定义模板，避免 Elementor/页面模板接管导致排版混乱 =====
+add_filter( 'template_include', function ( $template ) {
+	if ( is_page( 'zh-cn' ) ) {
+		$custom = trailingslashit( get_stylesheet_directory() ) . 'page-zh-cn.php';
+		if ( file_exists( $custom ) ) {
+			return $custom;
+		}
+	}
+	return $template;
+}, 99 );
