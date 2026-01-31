@@ -10,6 +10,11 @@
   <title>CoolXuZhi</title>
   <meta name="description" content="" />
   <link rel="canonical" href="<?php echo esc_url( home_url( '/zh-cn/' ) ); ?>" />
+  <link rel="shortcut icon" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/favicon.svg' ); ?>" />
+  <meta property="og:site_name" content="CoolXuZhi" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="CoolXuZhi" />
+  <meta property="og:locale" content="zh_CN" />
 
   <script>
     // 仅用于首屏提前设置 mode-light/mode-dark，避免闪烁
@@ -35,6 +40,7 @@
 </head>
 
 <body <?php body_class(); ?>>
+<?php wp_body_open(); ?>
 
 <header class="header">
   <div class="container-big">
@@ -107,7 +113,6 @@
     </div>
   </div>
 
-  <?php /* 下面内容暂时保持与英文一致（只做文字翻译，不改结构） */ ?>
   <div class="container">
     <div class="row">
       <div class="tag-group">
@@ -119,13 +124,13 @@
           </div>
           <div class="row" style="display: flex; flex-wrap: wrap; justify-content: center;">
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
-              <a href="https://CoolXuzhi.com/twilight-of-management-ai-native-enterprise" class="article__image">
-                <img src="https://Chennative.ai/media/zRQJ4nowj6zwrIdc.png" alt="I. L5 Unmanned Water Operations" loading="lazy">
+              <a href="<?php echo esc_url( home_url( '/twilight-of-management-ai-native-enterprise' ) ); ?>" class="article__image">
+                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/belief-01.svg' ); ?>" alt="I. L5 Unmanned Water Operations" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
                   <h2 class="article__title">
-                    <a href="https://CoolXuzhi.com/twilight-of-management-ai-native-enterprise">I. 水面 L5 自主航行将先于陆上自动驾驶</a>
+                    <a href="<?php echo esc_url( home_url( '/twilight-of-management-ai-native-enterprise' ) ); ?>">I. 水面 L5 自主航行将先于陆上自动驾驶</a>
                   </h2>
                   <p class="article__description">水面 L5 级无人化作业将比陆上 L5 自动驾驶更早落地与普及。</p>
                 </div>
@@ -133,13 +138,13 @@
             </div>
 
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
-              <a href="https://CoolXuzhi.com/skeuomorphism-trap-ai-native-liquid-business" class="article__image">
-                <img src="https://Chennative.ai/media/9ajDbDgyqeNqlZfc.png" alt="II. Pavlovian Robots" loading="lazy">
+              <a href="<?php echo esc_url( home_url( '/skeuomorphism-trap-ai-native-liquid-business' ) ); ?>" class="article__image">
+                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/belief-02.svg' ); ?>" alt="II. Pavlovian Robots" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
                   <h2 class="article__title">
-                    <a href="https://CoolXuzhi.com/skeuomorphism-trap-ai-native-liquid-business">II. 巴甫洛夫式机器人的出现</a>
+                    <a href="<?php echo esc_url( home_url( '/skeuomorphism-trap-ai-native-liquid-business' ) ); ?>">II. 巴甫洛夫式机器人的出现</a>
                   </h2>
                   <p class="article__description">具备犬类级别 IQ/EQ、可接受巴甫洛夫式训练的机器人已经近在眼前。</p>
                 </div>
@@ -147,14 +152,14 @@
             </div>
 
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
-              <a href="https://CoolXuzhi.com/human-responsibility-in-ai-native-era" class="article__image">
+              <a href="<?php echo esc_url( home_url( '/human-responsibility-in-ai-native-era' ) ); ?>" class="article__image">
                 <span class="featured"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="14" height="14" fill="currentColor" style="vertical-align:middle"><path d="M394 480a16 16 0 01-9.39-3L256 383.76 127.39 477a16 16 0 01-24.55-18.08L153 310.35 23 221.2a16 16 0 019-29.2h160.38l48.4-148.95a16 16 0 0130.44 0l48.4 149H480a16 16 0 019.05 29.2L359 310.35l50.13 148.53A16 16 0 01394 480z"/></svg></span>
-                <img src="https://Chennative.ai/media/image-9.png" alt="III. Automated Surface Robots" loading="lazy">
+                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/belief-03.svg' ); ?>" alt="III. Automated Surface Robots" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
                   <h2 class="article__title">
-                    <a href="https://CoolXuzhi.com/human-responsibility-in-ai-native-era">III. 自动化水面机器人：回收利用的接口</a>
+                    <a href="<?php echo esc_url( home_url( '/human-responsibility-in-ai-native-era' ) ); ?>">III. 自动化水面机器人：回收利用的接口</a>
                   </h2>
                   <p class="article__description">回收利用革命将是 21 世纪能源革命的重要组成部分。</p>
                 </div>
@@ -187,12 +192,210 @@
               </div>
             </div>
           </div>
+
+          <div class="row" style="display: flex; flex-wrap: wrap; justify-content: center;">
+            <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
+              <a href="#" class="article__image">
+                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/link-csdn.svg' ); ?>" alt="CSDN Blog" loading="lazy">
+              </a>
+              <div class="article__inner">
+                <div class="article__content">
+                  <div class="article__meta">
+                    <time class="article__date">2025-11-28</time>
+                  </div>
+                  <h2 class="article__title">
+                    <a href="#">查看我的 CSDN 技术博客</a>
+                  </h2>
+                  <p class="article__description">包含围绕机器人与 AI 的系列文章。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
+              <a href="#" class="article__image">
+                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/link-yuque.svg' ); ?>" alt="Yuque Docs" loading="lazy">
+              </a>
+              <div class="article__inner">
+                <div class="article__content">
+                  <div class="article__meta">
+                    <time class="article__date">2025-12-08</time>
+                  </div>
+                  <h2 class="article__title">
+                    <a href="#">查看我的语雀文档</a>
+                  </h2>
+                  <p class="article__description">工作与生活的思考与记录。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
+              <a href="#" class="article__image">
+                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/link-linkedin.svg' ); ?>" alt="LinkedIn" loading="lazy">
+              </a>
+              <div class="article__inner">
+                <div class="article__content">
+                  <div class="article__meta">
+                    <time class="article__date">2025-12-26</time>
+                  </div>
+                  <h2 class="article__title">
+                    <a href="#">查看我的 LinkedIn 主页</a>
+                  </h2>
+                  <p class="article__description">包含我的职业路径与技能概览。</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
     </div>
   </div>
 </main>
+
+<div class="search-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col col-12">
+        <div class="search">
+          <form class="search-form">
+            <i aria-hidden="true" class="search-input-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" fill="currentColor" style="vertical-align:middle"><path d="M456.69 421.39L362.6 327.3a173.81 173.81 0 0034.84-104.58C397.44 126.38 319.06 48 222.72 48S48 126.38 48 222.72s78.38 174.72 174.72 174.72A173.81 173.81 0 00327.3 362.6l94.09 94.09a25 25 0 0035.3-35.3zM97.92 222.72a124.8 124.8 0 11124.8 124.8 124.95 124.95 0 01-124.8-124.8z"/></svg></i>
+            <input class="search-field" type="text" placeholder="输入关键词搜索…">
+            <button class="search-button" type="submit">
+              <i aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" fill="currentColor" style="vertical-align:middle"><path d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"/></svg></i>
+            </button>
+          </form>
+          <div class="popular-wrapper">
+            <h4 class="popular-title">话题</h4>
+            <span class="popular-tags post-tags">
+                <a href="<?php echo esc_url( home_url( '/tag/the-business-pillar' ) ); ?>">商业</a>
+                <a href="<?php echo esc_url( home_url( '/tag/the-religious-pillar' ) ); ?>">宗教</a>
+                <a href="<?php echo esc_url( home_url( '/tag/technology' ) ); ?>">技术</a>
+                <a href="<?php echo esc_url( home_url( '/tag/the-awakening-pillar' ) ); ?>">觉醒</a>
+                <a href="<?php echo esc_url( home_url( '/tag/tanka' ) ); ?>">短歌</a>
+            </span>
+          </div>
+          <div class="search-result"></div>
+        </div>
+        <button class="search-wrapper-close" aria-label="关闭"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="footer-widgets">
+  <div class="container">
+    <div class="row">
+      <div class="col col-12">
+        <div class="widget-box">
+          <div class="row widget-row-aligned">
+            <div class="col col-4 col-d-6 col-t-12 widget-col-equal">
+              <div class="widget widget-recent widget-box-equal">
+                <div class="widget__head">
+                  <h3 class="widget__title">最近文章</h3>
+                </div>
+                <div class="recent-post">
+                  <a href="<?php echo esc_url( home_url( '/ai-native-company-data-vs-privacy' ) ); ?>" class="recent-post__image" aria-hidden="true">
+                    <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-01.svg' ); ?>" alt="日志 I. AI 原生公司的开源日志：数据与隐私" loading="lazy">
+                  </a>
+                  <div class="recent-post__content">
+                    <time class="recent-post__date" datetime="30-12-2025">2025-12-30</time>
+                    <h4 class="recent-post__title"><a href="<?php echo esc_url( home_url( '/ai-native-company-data-vs-privacy' ) ); ?>">日志 I. AI 原生公司的开源日志：数据与隐私</a></h4>
+                  </div>
+                </div>
+                <div class="recent-post">
+                  <a href="<?php echo esc_url( home_url( '/pure-land-civilizational-protocol-superintelligence' ) ); ?>" class="recent-post__image" aria-hidden="true">
+                    <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-02.svg' ); ?>" alt="II. 净土" loading="lazy">
+                  </a>
+                  <div class="recent-post__content">
+                    <time class="recent-post__date" datetime="29-12-2025">2025-12-29</time>
+                    <h4 class="recent-post__title"><a href="<?php echo esc_url( home_url( '/pure-land-civilizational-protocol-superintelligence' ) ); ?>">II. 净土</a></h4>
+                  </div>
+                </div>
+                <div class="recent-post">
+                  <a href="<?php echo esc_url( home_url( '/human-responsibility-in-ai-native-era' ) ); ?>" class="recent-post__image" aria-hidden="true">
+                    <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/recent-03.svg' ); ?>" alt="III. 我选择，我承担，故我在" loading="lazy">
+                  </a>
+                  <div class="recent-post__content">
+                    <time class="recent-post__date" datetime="26-12-2025">2025-12-26</time>
+                    <h4 class="recent-post__title"><a href="<?php echo esc_url( home_url( '/human-responsibility-in-ai-native-era' ) ); ?>">III. 我选择，我承担，故我在</a></h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col col-4 col-d-6 col-t-12 widget-col-equal">
+              <div class="widget widget-newsletter widget-box-equal">
+                <div class="widget__head">
+                  <h3 class="widget__title">订阅获取更新</h3>
+                </div>
+                <div class="newsletter__content newsletter-iframe-container">
+                  <iframe class="newsletter-iframe" src="https://mindful-palette-322177.framer.app/newsletter-chennative" frameborder="0" loading="lazy"></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col col-12">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; padding-top: 20px; padding-bottom: 20px;">
+
+           <div style="text-align: left;">
+              <h2 style="font-size: 48px; font-weight: bold; margin-bottom: 30px; color: var(--heading-font-color); font-family: 'Libre Baskerville', serif;">联系</h2>
+              <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px;">
+
+                 <li style="display: flex; align-items: center;">
+                    <span style="width: 24px; height: 24px; display: inline-flex; justify-content: center; align-items: center; margin-right: 12px;">
+                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24" height="24" fill="#0077b5"><path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.28c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg>
+                    </span>
+                    <a href="#" style="font-size: 18px; color: var(--text-color); text-decoration: none;">我的 LinkedIn</a>
+                 </li>
+
+                 <li style="display: flex; align-items: center;">
+                    <span style="width: 24px; height: 24px; display: inline-flex; justify-content: center; align-items: center; margin-right: 12px;">
+                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="24" height="24" fill="#FF0000"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 42.155 48.284 48.477 42.591 11.412 213.371 11.412 213.371 11.412s170.78 0 213.371-11.412c23.497-6.322 42.003-24.827 48.284-48.477 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg>
+                    </span>
+                    <a href="#" style="font-size: 18px; color: var(--text-color); text-decoration: none;">在 YouTube 关注我</a>
+                 </li>
+
+                 <li style="display: flex; align-items: center;">
+                    <span style="width: 24px; height: 24px; display: inline-flex; justify-content: center; align-items: center; margin-right: 12px;">
+                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="24" height="24" fill="#C92027"><path d="M278.9 511.5l-61-17.7c-6.4-1.8-10-8.5-8.2-14.9L346.2 8.7c1.8-6.4 8.5-10 14.9-8.2l61 17.7c6.4 1.8 10 8.5 8.2 14.9L293.8 503.3c-1.8 6.4-8.5 10-14.9 8.2zm-114-112.2l60.9 17.7c6.4 1.8 10 8.5 8.2 14.9l-133.5 463.6c-1.8 6.4-8.5 10-14.9 8.2L24.7 486c-6.4-1.8-10-8.5-8.2-14.9l133.5-463.6c1.8-6.4 8.5-10 14.9-8.2zm369.3 0l-133.5 463.6c-1.8 6.4-8.5 10-14.9 8.2l-60.9-17.7c-6.4-1.8-10-8.5-8.2-14.9l133.5-463.6c1.8-6.4 8.5-10 14.9-8.2l60.9 17.7c6.4 1.8 10 8.5 8.2 14.9z"/></svg>
+                    </span>
+                    <a href="#" style="font-size: 18px; color: var(--text-color); text-decoration: none;">CSDN 技术博客</a>
+                 </li>
+
+                 <li style="display: flex; align-items: center;">
+                    <span style="width: 24px; height: 24px; display: inline-flex; justify-content: center; align-items: center; margin-right: 12px;">
+                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24" height="24" fill="#25b864"><path d="M448 360V24c0-13.3-10.7-24-24-24H96C43 0 0 43 0 96v320c0 53 43 96 96 96h328c13.3 0 24-10.7 24-24v-16c0-7.5-3.5-14.3-8.9-18.7-4.2-15.4-4.2-59.3 0-74.7 5.4-4.3 8.9-11.1 8.9-18.6zM128 134c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm0 64c0-3.3 2.7-6 6-6h212c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H134c-3.3 0-6-2.7-6-6v-20zm253.4 250H96c-17.7 0-32-14.3-32-32 0-17.6 14.4-32 32-32h285.4c-1.9 17.1-1.9 46.9 0 64z"/></svg>
+                    </span>
+                    <a href="#" style="font-size: 18px; color: var(--text-color); text-decoration: none;">语雀文档</a>
+                 </li>
+
+                 <li style="display: flex; align-items: center;">
+                    <span style="width: 24px; height: 24px; display: inline-flex; justify-content: center; align-items: center; margin-right: 12px;">
+                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24" height="24" fill="#2196F3"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/></svg>
+                    </span>
+                    <a href="mailto:cxzzero@126.com" style="font-size: 18px; color: var(--text-color); text-decoration: none;">cxzzero@126.com</a>
+                 </li>
+
+              </ul>
+           </div>
+
+           <div style="text-align: right;">
+              <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/Profile.jpg' ); ?>" alt="Profile Picture" style="max-width: 100%; width: 350px; height: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+           </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <?php wp_footer(); ?>
 </body>
