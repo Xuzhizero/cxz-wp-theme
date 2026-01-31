@@ -10,6 +10,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Detect /zh-cn/ landing request even if WordPress has no such Page.
+ */
+function cxz_is_zh_cn_landing_request(): bool {
+	if ( is_admin() ) {
+		return false;
+	}
+	if ( function_exists( 'wp_doing_ajax' ) && wp_doing_ajax() ) {
+		return false;
+	}
+	$uri = isset( $_SERVER['REQUEST_URI'] ) ? (string) $_SERVER['REQUEST_URI'] : '';
+	if ( $uri === '' ) {
+		return false;
+	}
+	$path = parse_url( $uri, PHP_URL_PATH );
+	if ( ! is_string( $path ) || $path === '' ) {
+		return false;
+	}
+	$path = rtrim( $path, '/' );
+	return $path === '/zh-cn';
+}
+
+/**
  * Theme setup
  */
 function cxz_wp_theme_setup() {
@@ -31,7 +53,7 @@ add_action( 'wp_enqueue_scripts', 'cxz_wp_theme_scripts' );
 
 // ===== 加载核心样式和脚本（来自 Chennative.ai）=====
 add_action( 'wp_enqueue_scripts', function () {
-	if ( is_front_page() || is_page( 'zh-cn' ) ) {
+	if ( is_front_page() || is_page( 'zh-cn' ) || cxz_is_zh_cn_landing_request() ) {
 		// 首页由 front-page.php 直接输出并手动引入外部资源，
 		// /zh-cn/ 由 page-zh-cn.php 直接输出并手动引入本地化资源，
 		// 避免在这里重复 enqueue 导致脚本/样式重复加载（并被 LiteSpeed 进一步改写）。
@@ -54,7 +76,7 @@ add_action( 'wp_enqueue_scripts', function () {
 
 // ===== 首页：彻底移除所有干扰样式 =====
 add_action( 'wp_enqueue_scripts', function () {
-	if ( ! ( is_front_page() || is_home() || is_page( 'zh-cn' ) ) ) {
+	if ( ! ( is_front_page() || is_home() || is_page( 'zh-cn' ) || cxz_is_zh_cn_landing_request() ) ) {
 		return;
 	}
 
@@ -109,7 +131,7 @@ add_action( 'wp_enqueue_scripts', function () {
 
 // ===== 移除 wp_head 中的内联样式 =====
 add_action( 'wp_head', function () {
-	if ( ! ( is_front_page() || is_home() || is_page( 'zh-cn' ) ) ) {
+	if ( ! ( is_front_page() || is_home() || is_page( 'zh-cn' ) || cxz_is_zh_cn_landing_request() ) ) {
 		return;
 	}
 
@@ -120,7 +142,7 @@ add_action( 'wp_head', function () {
 
 // ===== 首页：移除 Astra 的 body 类干扰 =====
 add_filter( 'body_class', function ( $classes ) {
-	if ( is_front_page() || is_home() || is_page( 'zh-cn' ) ) {
+	if ( is_front_page() || is_home() || is_page( 'zh-cn' ) || cxz_is_zh_cn_landing_request() ) {
 		// 保留必要的类，移除 Astra 特定类
 		$remove = array( 'ast-', 'astra-', 'site-', 'elementor-' );
 		foreach ( $classes as $key => $class ) {
@@ -139,6 +161,21 @@ add_action( 'init', function () {
 	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 	remove_action( 'wp_print_styles', 'print_emoji_styles' );
 } );
+
+// ===== /zh-cn/：如果 WP 没有该 Page（当前就是 404），也直接用我们的模板输出 =====
+add_action( 'template_redirect', function () {
+	if ( ! cxz_is_zh_cn_landing_request() ) {
+		return;
+	}
+	$custom = trailingslashit( get_stylesheet_directory() ) . 'page-zh-cn.php';
+	if ( ! file_exists( $custom ) ) {
+		return;
+	}
+	status_header( 200 );
+	nocache_headers();
+	include $custom;
+	exit;
+}, 0 );
 
 // ===== /zh-cn/：强制使用我们的自定义模板，避免 Elementor/页面模板接管导致排版混乱 =====
 add_filter( 'template_include', function ( $template ) {
