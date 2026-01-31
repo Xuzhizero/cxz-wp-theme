@@ -118,12 +118,13 @@ a:hover {
 
 /* ===== Layout helpers (minimal grid to replace remote css) ===== */
 .container {
-  width: min(1400px, calc(100% - 64px));
+  /* widen overall layout (~+33%) */
+  width: min(1860px, calc(100% - 48px));
   margin-inline: auto;
 }
 
 .container-big {
-  width: min(1600px, calc(100% - 64px));
+  width: min(2130px, calc(100% - 48px));
   margin-inline: auto;
 }
 
@@ -418,6 +419,8 @@ a:hover {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* push nebula lower like reference */
+  object-position: 50% 72%;
   display: block;
   filter: saturate(1.03) contrast(1.02);
 }
@@ -428,8 +431,9 @@ a:hover {
 }
 
 html.mode-light .hero-image__inner img {
-  filter: blur(1.5px) brightness(1.15) saturate(0.92) contrast(0.95);
-  transform: scale(1.02);
+  /* make it clearer (less haze) while keeping text readable */
+  filter: blur(0.35px) brightness(1.06) saturate(0.98) contrast(1.06);
+  transform: scale(1.01);
 }
 
 .hero-image::before {
