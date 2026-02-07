@@ -112,8 +112,18 @@ a {
   text-decoration: none;
 }
 
+a[href] {
+  cursor: pointer;
+}
+
 a:hover {
   color: var(--link-color-hover);
+}
+
+/* External links: underline on hover so visitors know they'll navigate away */
+a[href^="http"]:hover,
+a[href^="mailto"]:hover {
+  text-decoration: underline;
 }
 
 /* ===== Layout helpers (minimal grid to replace remote css) ===== */
@@ -163,6 +173,12 @@ a:hover {
 @media (max-width: 768px) {
   .col-t-12 {
     flex: 0 0 100%;
+    max-width: 100%; /* override .col-4 max-width so cards can go full-width */
+  }
+
+  /* Cards don't need 550px height on small screens */
+  .custom-tall-card {
+    min-height: auto !important;
   }
 }
 

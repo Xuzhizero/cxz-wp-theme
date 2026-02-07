@@ -33,7 +33,17 @@
       html.classList.add("mode-preference-" + pref);
     })();
   </script>
-  <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/cxz-home.css?ver=20260131-1" />
+  <!-- Critical inline CSS: prevent FOUC (flash of unstyled content) before external sheet loads -->
+  <style>
+    body{margin:0;padding:0}
+    .logo__image{width:36px;height:36px;border-radius:10px;object-fit:cover}
+    .header{position:fixed;top:0;left:0;right:0;z-index:80;background:transparent}
+    .hero-image{position:relative;overflow:hidden;max-height:900px}
+    .hero-image__inner,.hero-image__inner img{width:100%;height:100%;display:block;object-fit:cover}
+    .container{width:min(1860px,calc(100% - 48px));margin-inline:auto}
+    .container-big{width:min(2130px,calc(100% - 48px));margin-inline:auto}
+  </style>
+  <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/cxz-home.css?ver=20260131-2" />
   <script src="<?php echo get_stylesheet_directory_uri(); ?>/assets/js/cxz-home.js?ver=20260131-1" defer></script>
 
   <?php wp_head(); ?>
@@ -48,7 +58,7 @@
       <div class="header__inner col col-12">
         <div class="logo">
           <a class="logo__link" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-              <img class="logo__image" src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/logo.svg" alt="CoolXuZhi"/>
+              <img class="logo__image" src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/logo.svg" alt="CoolXuZhi" width="36" height="36"/>
           </a>
         </div>
         <div class="hamburger" onclick="menuToggle()" id="hamburger">
