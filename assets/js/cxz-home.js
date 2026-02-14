@@ -209,5 +209,91 @@
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") closeSearch();
   });
+
+  // ===== Newsletter subscription =====
+  (function () {
+    var form = $("#cxz-newsletter-form");
+    if (!form) return;
+
+    var input  = $("#cxz-newsletter-email");
+    var btn    = $("#cxz-newsletter-submit");
+    var msgEl  = $("#cxz-newsletter-message");
+    var uiLang = getUiLang();
+
+    var strings = {
+      en: {
+        sending:   "Subscribing...",
+        success:   "Thank you! You are now subscribed.",
+        already:   "This email is already subscribed.",
+        invalid:   "Please enter a valid email address.",
+        rateLimit: "Please wait a moment before trying again.",
+        error:     "Something went wrong. Please try again."
+      },
+      zh: {
+        sending:   "正在订阅...",
+        success:   "感谢您！订阅成功。",
+        already:   "此邮箱已订阅。",
+        invalid:   "请输入有效的邮箱地址。",
+        rateLimit: "请稍后再试。",
+        error:     "出现问题，请重试。"
+      }
+    };
+    var t = strings[uiLang] || strings.en;
+
+    function showMessage(text, isError) {
+      msgEl.textContent = text;
+      msgEl.className = "newsletter-form__message" + (isError ? " is-error" : " is-success");
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      var email = (input.value || "").trim();
+      if (!email || email.indexOf("@") === -1) {
+        showMessage(t.invalid, true);
+        return;
+      }
+
+      if (btn.disabled) return;
+      btn.disabled = true;
+      showMessage(t.sending, false);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", window.cxzSubscribe.ajaxUrl, true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.onload = function () {
+        btn.disabled = false;
+        try {
+          var res = JSON.parse(xhr.responseText);
+          if (res.success) {
+            showMessage(t.success, false);
+            input.value = "";
+          } else {
+            var code = (res.data && res.data.code) || "";
+            if (code === "already_subscribed") {
+              showMessage(t.already, true);
+            } else if (code === "rate_limited") {
+              showMessage(t.rateLimit, true);
+            } else if (code === "invalid_email") {
+              showMessage(t.invalid, true);
+            } else {
+              showMessage(t.error, true);
+            }
+          }
+        } catch (ex) {
+          showMessage(t.error, true);
+        }
+      };
+      xhr.onerror = function () {
+        btn.disabled = false;
+        showMessage(t.error, true);
+      };
+      xhr.send(
+        "action=cxz_subscribe" +
+        "&nonce=" + encodeURIComponent(window.cxzSubscribe.nonce) +
+        "&email=" + encodeURIComponent(email)
+      );
+    });
+  })();
 })();
 

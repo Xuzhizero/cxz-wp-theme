@@ -187,3 +187,53 @@ add_filter( 'template_include', function ( $template ) {
 	}
 	return $template;
 }, 99 );
+
+// ===== Newsletter Subscription System =====
+require_once get_stylesheet_directory() . '/inc/cxz-subscribers-db.php';
+require_once get_stylesheet_directory() . '/inc/cxz-subscribers-ajax.php';
+require_once get_stylesheet_directory() . '/inc/cxz-subscribers-smtp.php';
+require_once get_stylesheet_directory() . '/inc/cxz-subscribers-notify.php';
+require_once get_stylesheet_directory() . '/inc/cxz-subscribers-unsubscribe.php';
+if ( is_admin() ) {
+	require_once get_stylesheet_directory() . '/inc/cxz-subscribers-admin.php';
+}
+
+// Create DB table on theme activation
+add_action( 'after_switch_theme', 'cxz_subscribers_create_table' );
+
+// Also create table if it doesn't exist yet (for already-active themes)
+add_action( 'init', function () {
+	if ( get_option( 'cxz_subscribers_db_version' ) !== CXZ_SUBSCRIBERS_DB_VERSION ) {
+		cxz_subscribers_create_table();
+	}
+}, 99 );
+
+// Pass AJAX URL and nonce to frontend via wp_head (for front-page/zh-cn pages)
+add_action( 'wp_head', function () {
+	if ( ! ( is_front_page() || is_home() || is_page( 'zh-cn' ) || cxz_is_zh_cn_landing_request() ) ) {
+		return;
+	}
+	?>
+	<script>
+	var cxzSubscribe = {
+		ajaxUrl: <?php echo wp_json_encode( admin_url( 'admin-ajax.php' ) ); ?>,
+		nonce:   <?php echo wp_json_encode( wp_create_nonce( 'cxz_subscribe_nonce' ) ); ?>
+	};
+	</script>
+	<?php
+}, 5 );
+
+// For non-front-page templates using get_footer(), also inject the config
+add_action( 'wp_footer', function () {
+	if ( is_front_page() || is_home() || is_page( 'zh-cn' ) || cxz_is_zh_cn_landing_request() ) {
+		return; // already handled by wp_head above
+	}
+	?>
+	<script>
+	var cxzSubscribe = {
+		ajaxUrl: <?php echo wp_json_encode( admin_url( 'admin-ajax.php' ) ); ?>,
+		nonce:   <?php echo wp_json_encode( wp_create_nonce( 'cxz_subscribe_nonce' ) ); ?>
+	};
+	</script>
+	<?php
+}, 5 );

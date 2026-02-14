@@ -717,6 +717,12 @@ html.mode-light .hero-image__inner img {
     flex: 0 0 100%;
     max-width: 100%;
   }
+  .newsletter-form__group {
+    flex-direction: column;
+  }
+  .newsletter-form__button {
+    width: 100%;
+  }
 }
 
 .widget-box {
@@ -747,20 +753,75 @@ html.mode-light .hero-image__inner img {
   flex-direction: column;
   min-height: 450px;
 }
-.newsletter-iframe-container {
-  flex: 1;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 220px;
+/* ===== Newsletter subscription form ===== */
+.newsletter-form {
+  padding: 8px 0;
 }
-.newsletter-iframe {
-  width: 100%;
-  height: 220px;
-  transform: none;
+.newsletter-form__description {
+  margin: 0 0 16px;
+  font-family: var(--heading-font-family);
+  font-size: 14px;
+  color: var(--text-color);
+  opacity: 0.85;
+  line-height: 1.5;
+}
+.newsletter-form__group {
+  display: flex;
+  gap: 10px;
+}
+.newsletter-form__input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--surface-2);
+  color: var(--heading-font-color);
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 200ms ease;
+}
+.newsletter-form__input::placeholder {
+  color: var(--text-color);
+  opacity: 0.5;
+}
+.newsletter-form__input:focus {
+  border-color: var(--color-accent);
+}
+.newsletter-form__button {
+  flex: 0 0 auto;
+  padding: 12px 24px;
   border: none;
+  border-radius: 12px;
+  background: var(--color-accent);
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 200ms ease;
+  white-space: nowrap;
+}
+.newsletter-form__button:hover {
+  opacity: 0.88;
+}
+.newsletter-form__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.newsletter-form__message {
+  margin-top: 10px;
+  font-family: var(--heading-font-family);
+  font-size: 13px;
+  min-height: 20px;
+  line-height: 1.4;
+}
+.newsletter-form__message.is-success {
+  color: #25b864;
+}
+.newsletter-form__message.is-error {
+  color: var(--color-accent);
 }
 
 .footer {

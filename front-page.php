@@ -341,8 +341,15 @@
                 <div class="widget__head">
                   <h3 class="widget__title">Subscribe For More</h3>
                 </div>
-                <div class="newsletter__content newsletter-iframe-container">
-                  <iframe class="newsletter-iframe" src="https://mindful-palette-322177.framer.app/newsletter-chennative" frameborder="0" loading="lazy"></iframe>
+                <div class="newsletter__content">
+                  <form class="newsletter-form" id="cxz-newsletter-form">
+                    <p class="newsletter-form__description">Get notified when new articles are published. No spam, unsubscribe anytime.</p>
+                    <div class="newsletter-form__group">
+                      <input type="email" class="newsletter-form__input" id="cxz-newsletter-email" placeholder="Your email address" required autocomplete="email" aria-label="Email address">
+                      <button type="submit" class="newsletter-form__button" id="cxz-newsletter-submit">Subscribe</button>
+                    </div>
+                    <div class="newsletter-form__message" id="cxz-newsletter-message" role="status" aria-live="polite"></div>
+                  </form>
                 </div>
               </div>
             </div>

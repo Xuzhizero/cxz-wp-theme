@@ -337,8 +337,15 @@
                 <div class="widget__head">
                   <h3 class="widget__title">订阅获取更新</h3>
                 </div>
-                <div class="newsletter__content newsletter-iframe-container">
-                  <iframe class="newsletter-iframe" src="https://mindful-palette-322177.framer.app/newsletter-chennative" frameborder="0" loading="lazy"></iframe>
+                <div class="newsletter__content">
+                  <form class="newsletter-form" id="cxz-newsletter-form">
+                    <p class="newsletter-form__description">新文章发布时通知您。无垃圾邮件，随时可退订。</p>
+                    <div class="newsletter-form__group">
+                      <input type="email" class="newsletter-form__input" id="cxz-newsletter-email" placeholder="您的邮箱地址" required autocomplete="email" aria-label="邮箱地址">
+                      <button type="submit" class="newsletter-form__button" id="cxz-newsletter-submit">订阅</button>
+                    </div>
+                    <div class="newsletter-form__message" id="cxz-newsletter-message" role="status" aria-live="polite"></div>
+                  </form>
                 </div>
               </div>
             </div>
