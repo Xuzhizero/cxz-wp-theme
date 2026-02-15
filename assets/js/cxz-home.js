@@ -151,6 +151,12 @@
   window.toggleLanguageDropdown = toggleLanguageDropdownImpl;
   window.toggleColorMode = toggleColorModeImpl;
 
+  // ===== Persist UI language preference =====
+  (function () {
+    var lang = getUiLang();
+    try { localStorage.setItem("ui-lang-pref", lang); } catch (e) {}
+  })();
+
   // Init label and keep it in sync
   updateColorModeToggleLabel();
   window.addEventListener("hb:colorModeChanged", updateColorModeToggleLabel);
