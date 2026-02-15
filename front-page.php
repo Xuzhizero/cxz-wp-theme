@@ -225,18 +225,18 @@
             </div>
 
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
-              <a href="#" class="article__image">
-                <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/link-yuque.svg" alt="Yuque Docs" loading="lazy">
+              <a href="<?php echo esc_url( home_url( '/master-statement/' ) ); ?>" class="article__image">
+                <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/belief-01.png" alt="Master's Engineering Journey" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
                   <div class="article__meta">
-                    <time class="article__date">Dec 8, 2025</time>
+                    <time class="article__date">Feb 15, 2026</time>
                   </div>
                   <h2 class="article__title">
-                    <a href="https://www.yuque.com/caogongzi">Check out my Yuque Personal Docs</a>
+                    <a href="<?php echo esc_url( home_url( '/master-statement/' ) ); ?>">My Master's Engineering Journey</a>
                   </h2>
-                  <p class="article__description">Thoughts and feelings from work and life.</p>
+                  <p class="article__description">From deep learning to amphibious spherical robots — a hands-on engineering story.</p>
                 </div>
               </div>
             </div>

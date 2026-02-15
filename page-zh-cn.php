@@ -222,18 +222,18 @@
             </div>
 
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
-              <a href="https://www.yuque.com/caogongzi" class="article__image">
-                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/link-yuque.svg' ); ?>" alt="Yuque Docs" loading="lazy">
+              <a href="<?php echo esc_url( home_url( '/master-statement/' ) ); ?>" class="article__image">
+                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/belief-01.png' ); ?>" alt="硕士经历陈述" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
                   <div class="article__meta">
-                    <time class="article__date">2025-12-08</time>
+                    <time class="article__date">2026-02-15</time>
                   </div>
                   <h2 class="article__title">
-                    <a href="https://www.yuque.com/caogongzi">查看我的语雀文档</a>
+                    <a href="<?php echo esc_url( home_url( '/master-statement/' ) ); ?>">个人硕士期间工作经历陈述</a>
                   </h2>
-                  <p class="article__description">工作与生活的思考与记录。</p>
+                  <p class="article__description">从深度学习到水陆两栖球形机器人——一段工程实践之旅。</p>
                 </div>
               </div>
             </div>

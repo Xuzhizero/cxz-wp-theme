@@ -177,6 +177,27 @@ add_action( 'template_redirect', function () {
 	exit;
 }, 0 );
 
+// ===== /master-statement/：硕士经历陈述页面路由 =====
+add_action( 'template_redirect', function () {
+	$uri  = isset( $_SERVER['REQUEST_URI'] ) ? (string) $_SERVER['REQUEST_URI'] : '';
+	$path = parse_url( $uri, PHP_URL_PATH );
+	if ( ! is_string( $path ) ) {
+		return;
+	}
+	$path = rtrim( $path, '/' );
+	if ( $path !== '/master-statement' ) {
+		return;
+	}
+	$tpl = get_stylesheet_directory() . '/page-master-statement.php';
+	if ( ! file_exists( $tpl ) ) {
+		return;
+	}
+	status_header( 200 );
+	nocache_headers();
+	include $tpl;
+	exit;
+}, 0 );
+
 // ===== /zh-cn/：强制使用我们的自定义模板，避免 Elementor/页面模板接管导致排版混乱 =====
 add_filter( 'template_include', function ( $template ) {
 	if ( is_page( 'zh-cn' ) ) {
