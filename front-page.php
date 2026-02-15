@@ -226,7 +226,7 @@
 
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
               <a href="<?php echo esc_url( home_url( '/master-statement/' ) ); ?>" class="article__image">
-                <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/belief-01.png" alt="Master's Engineering Journey" loading="lazy">
+                <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/chennative-1.png" alt="Master's Engineering Journey" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
