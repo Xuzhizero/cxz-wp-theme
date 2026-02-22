@@ -136,13 +136,13 @@
           </div>
           <div class="row" style="display: flex; flex-wrap: wrap; justify-content: center;">
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
-              <a href="https://CoolXuzhi.com/twilight-of-management-ai-native-enterprise" class="article__image">
+              <a href="#" onclick="showBeliefToast(event)" class="article__image">
                 <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/belief-01.png" alt="I. L5 Unmanned Water Operations" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
                   <h2 class="article__title">
-                    <a href="https://CoolXuzhi.com/twilight-of-management-ai-native-enterprise">I. L5 Maritime Autonomy Will Precede Land Driving</a>
+                    <a href="#" onclick="showBeliefToast(event)">I. L5 Maritime Autonomy Will Precede Land Driving</a>
                   </h2>
                   <p class="article__description">L5 unmanned operations on water will be deployed and popularized earlier than land-based L5 autonomous driving.</p>
                 </div>
@@ -150,13 +150,13 @@
             </div>
 
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
-              <a href="https://CoolXuzhi.com/skeuomorphism-trap-ai-native-liquid-business" class="article__image">
+              <a href="#" onclick="showBeliefToast(event)" class="article__image">
                 <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/belief-02.png" alt="II. Pavlovian Robots" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
                   <h2 class="article__title">
-                    <a href="https://CoolXuzhi.com/skeuomorphism-trap-ai-native-liquid-business">II. The Emergence of Pavlovian Robots</a>
+                    <a href="#" onclick="showBeliefToast(event)">II. The Emergence of Pavlovian Robots</a>
                   </h2>
                   <p class="article__description">Robots with canine-level IQ and EQ, capable of accepting Pavlovian-style training, are already on the horizon.</p>
                 </div>
@@ -164,14 +164,14 @@
             </div>
 
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
-              <a href="https://CoolXuzhi.com/human-responsibility-in-ai-native-era" class="article__image">
+              <a href="#" onclick="showBeliefToast(event)" class="article__image">
                 <span class="featured"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="14" height="14" fill="currentColor" style="vertical-align:middle"><path d="M394 480a16 16 0 01-9.39-3L256 383.76 127.39 477a16 16 0 01-24.55-18.08L153 310.35 23 221.2a16 16 0 019-29.2h160.38l48.4-148.95a16 16 0 0130.44 0l48.4 149H480a16 16 0 019.05 29.2L359 310.35l50.13 148.53A16 16 0 01394 480z"/></svg></span>
                 <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/belief-03.png" alt="III. Automated Surface Robots" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
                   <h2 class="article__title">
-                    <a href="https://CoolXuzhi.com/human-responsibility-in-ai-native-era">III. Automated Surface Robots: The Recycling Interface</a>
+                    <a href="#" onclick="showBeliefToast(event)">III. Automated Surface Robots: The Recycling Interface</a>
                   </h2>
                    <p class="article__description">These robots will pioneer waste reuse. The recycling revolution will be a vital part of the 21st-century energy revolution.</p>
                 </div>
@@ -419,6 +419,37 @@
 </footer>
 
 <?php wp_footer(); ?>
+
+<!-- Belief Toast -->
+<div id="belief-toast" style="
+  display:none;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(20,20,20,0.92);
+  color:#fff;
+  padding:20px 36px;
+  border-radius:12px;
+  font-size:16px;
+  letter-spacing:0.04em;
+  z-index:99999;
+  box-shadow:0 8px 32px rgba(0,0,0,0.35);
+  pointer-events:none;
+  transition:opacity 0.3s ease;
+">正在完善，敬请期待。。。</div>
+<script>
+function showBeliefToast(e) {
+  e.preventDefault();
+  var toast = document.getElementById('belief-toast');
+  toast.style.display = 'block';
+  toast.style.opacity = '1';
+  setTimeout(function() {
+    toast.style.opacity = '0';
+    setTimeout(function() { toast.style.display = 'none'; }, 300);
+  }, 2000);
+}
+</script>
 </body>
 
 </html>
