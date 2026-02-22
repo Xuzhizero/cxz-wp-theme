@@ -37,13 +37,60 @@
   </script>
   <!-- Critical inline CSS: prevent FOUC (flash of unstyled content) before external sheet loads -->
   <style>
-    body{margin:0;padding:0}
-    .logo__image{width:36px;height:36px;border-radius:10px;object-fit:cover}
-    .header{position:fixed;top:0;left:0;right:0;z-index:80;background:transparent}
-    .hero-image{position:relative;overflow:hidden;max-height:900px}
-    .hero-image__inner,.hero-image__inner img{width:100%;height:100%;display:block;object-fit:cover}
+    /* --- Reset --- */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:0;width:100%;background:var(--background-color)}
+    body{overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+    /* --- CSS Variables (light mode default, JS will switch to dark if needed) --- */
+    html.mode-light{
+      --background-color:#faf9f6;
+      --background-alt-color:#fffefa;
+      --text-color:#635f5a;
+      --heading-font-color:#1c0f05;
+      --link-color:#1c0a05;
+      --border-color:#e6e6e6;
+      --header-bg:rgba(250,249,246,0.18);
+      --hero-overlay:rgba(250,249,246,0.55);
+    }
+    html.mode-dark{
+      --background-color:#1f1500;
+      --background-alt-color:#141312;
+      --text-color:#f0f0f0;
+      --heading-font-color:#f0f0f0;
+      --link-color:#f0f0f0;
+      --border-color:#303237;
+      --header-bg:rgba(0,0,0,0.62);
+      --hero-overlay:rgba(0,0,0,0.35);
+    }
+    /* fallback if JS hasn't set mode class yet */
+    html:not(.mode-light):not(.mode-dark){
+      --background-color:#faf9f6;
+      --text-color:#635f5a;
+      --heading-font-color:#1c0f05;
+      --border-color:#e6e6e6;
+      --header-bg:rgba(250,249,246,0.18);
+    }
+
+    /* --- Layout skeletons --- */
     .container{width:min(1860px,calc(100% - 48px));margin-inline:auto}
     .container-big{width:min(2130px,calc(100% - 48px));margin-inline:auto}
+    .row{display:flex;flex-wrap:wrap;margin-left:-12px;margin-right:-12px}
+    .col{padding-left:12px;padding-right:12px}
+    .col-12{width:100%}
+
+    /* --- Header --- */
+    .header{position:fixed;top:0;left:0;right:0;z-index:80;background:var(--header-bg)}
+    .header__inner{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+    .logo__image{width:36px;height:36px;border-radius:10px;object-fit:cover}
+
+    /* --- Hero --- */
+    .hero-image{position:relative;overflow:hidden;max-height:900px}
+    .hero-image__inner{width:100%;height:100%}
+    .hero-image__inner img{width:100%;height:100%;display:block;object-fit:cover}
+
+    /* --- Body background: prevent white flash --- */
+    body{background-color:var(--background-color,#faf9f6)}
   </style>
   <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri(); ?>/assets/css/cxz-home.css?ver=20260131-2" />
   <script src="<?php echo get_stylesheet_directory_uri(); ?>/assets/js/cxz-home.js?ver=20260131-1" defer></script>
