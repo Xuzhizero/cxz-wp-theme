@@ -203,6 +203,10 @@
     var currentLang = getCurrentLang();
     var newLang = (currentLang === 'zh') ? 'en' : 'zh';
     setArticleLanguage(newLang);
+    // 同步更新 URL 参数，防止下次 getCurrentLang() 被旧 URL 参数覆盖
+    var url = new URL(window.location.href);
+    url.searchParams.set('lang', newLang);
+    window.history.replaceState(null, '', url.toString());
   };
 
   // ===== 页面加载时初始化语言 =====
