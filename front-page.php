@@ -225,7 +225,7 @@
             </div>
 
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
-              <a href="<?php echo esc_url( home_url( '/master-statement/' ) ); ?>" class="article__image">
+              <a href="<?php echo esc_url( home_url( '/master-statement/' ) ); ?>?lang=en" class="article__image">
                 <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/img/chennative-1.png" alt="Master's Engineering Journey" loading="lazy">
               </a>
               <div class="article__inner">
@@ -234,7 +234,7 @@
                     <time class="article__date">Feb 15, 2026</time>
                   </div>
                   <h2 class="article__title">
-                    <a href="<?php echo esc_url( home_url( '/master-statement/' ) ); ?>">My Master's Engineering Journey</a>
+                    <a href="<?php echo esc_url( home_url( '/master-statement/' ) ); ?>?lang=en">My Master's Engineering Journey</a>
                   </h2>
                   <p class="article__description">From deep learning to amphibious spherical robots — a hands-on engineering story.</p>
                 </div>

@@ -136,9 +136,7 @@
   </div>
 
   <div class="article-page__footer">
-    <!-- 中文返回链接 -->
-    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="article-page__back lang-content" data-lang="zh">&larr; 返回主页</a>
-    <!-- 英文返回链接 -->
+    <a href="<?php echo esc_url( home_url( '/zh-cn/' ) ); ?>" class="article-page__back lang-content" data-lang="zh">&larr; 返回主页</a>
     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="article-page__back lang-content" data-lang="en">&larr; Back to Home</a>
   </div>
 </main>

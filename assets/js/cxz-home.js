@@ -151,10 +151,14 @@
   window.toggleLanguageDropdown = toggleLanguageDropdownImpl;
   window.toggleColorMode = toggleColorModeImpl;
 
-  // ===== Persist UI language preference =====
+  // ===== Persist UI language preference (only on homepages) =====
   (function () {
-    var lang = getUiLang();
-    try { localStorage.setItem("ui-lang-pref", lang); } catch (e) {}
+    var path = window.location.pathname.replace(/\/+$/, '') || '/';
+    var isHomepage = (path === '' || path === '/' || path === '/zh-cn');
+    if (isHomepage) {
+      var lang = getUiLang();
+      try { localStorage.setItem("ui-lang-pref", lang); } catch (e) {}
+    }
   })();
 
   // Init label and keep it in sync
