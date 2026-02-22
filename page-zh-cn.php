@@ -222,8 +222,8 @@
             </div>
 
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
-              <a href="<?php echo esc_url( home_url( '/master-statement/' ) ); ?>" class="article__image">
-                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/belief-01.png' ); ?>" alt="硕士经历陈述" loading="lazy">
+              <a href="<?php echo esc_url( home_url( '/master-statement/' ) ); ?>?lang=zh" class="article__image">
+                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/chennative-1.png' ); ?>" alt="硕士经历陈述" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
@@ -231,7 +231,7 @@
                     <time class="article__date">2026-02-15</time>
                   </div>
                   <h2 class="article__title">
-                    <a href="<?php echo esc_url( home_url( '/master-statement/' ) ); ?>">个人硕士期间工作经历陈述</a>
+                    <a href="<?php echo esc_url( home_url( '/master-statement/' ) ); ?>?lang=zh">个人硕士期间工作经历陈述</a>
                   </h2>
                   <p class="article__description">从深度学习到水陆两栖球形机器人——一段工程实践之旅。</p>
                 </div>

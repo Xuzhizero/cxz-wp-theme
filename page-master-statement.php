@@ -147,7 +147,15 @@
 (function() {
   // ===== 获取当前语言偏好 =====
   function getCurrentLang() {
-    // 1. 优先从 localStorage 读取
+    // 1. 优先从 URL 参数读取 (?lang=zh / ?lang=en)
+    var urlParams = new URLSearchParams(window.location.search);
+    var urlLang = urlParams.get('lang');
+    if (urlLang === 'zh' || urlLang === 'en') {
+      try { localStorage.setItem('ui-lang-pref', urlLang); } catch (e) {}
+      return urlLang;
+    }
+
+    // 2. 从 localStorage 读取
     try {
       var stored = localStorage.getItem('ui-lang-pref');
       if (stored === 'zh' || stored === 'en') {
@@ -155,7 +163,7 @@
       }
     } catch (e) {}
     
-    // 2. 从 <html lang> 推断
+    // 3. 从 <html lang> 推断
     var htmlLang = document.documentElement.getAttribute('lang') || '';
     if (htmlLang.toLowerCase().indexOf('zh') === 0) {
       return 'zh';
