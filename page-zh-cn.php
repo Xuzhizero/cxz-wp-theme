@@ -206,7 +206,7 @@
           <div class="row" style="display: flex; flex-wrap: wrap; justify-content: center;">
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
               <a href="https://blog.csdn.net/a2213086589?type=blog" class="article__image">
-                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/link-csdn.svg' ); ?>" alt="CSDN Blog" loading="lazy">
+                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/link-csdn-photo.png' ); ?>" alt="CSDN Blog" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
@@ -240,7 +240,7 @@
 
             <div class="article col col-4 col-d-6 col-t-12 custom-tall-card">
               <a href="https://www.linkedin.com/feed/" class="article__image">
-                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/link-linkedin.svg' ); ?>" alt="LinkedIn" loading="lazy">
+                <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/img/link-linkedin-photo.webp' ); ?>" alt="LinkedIn" loading="lazy">
               </a>
               <div class="article__inner">
                 <div class="article__content">
