@@ -209,6 +209,9 @@ add_filter( 'template_include', function ( $template ) {
 	return $template;
 }, 99 );
 
+// ===== /market：市场监控看板（领导专用，只读） =====
+require_once get_stylesheet_directory() . '/inc/cxz-market-monitor.php';
+
 // ===== Newsletter Subscription System =====
 require_once get_stylesheet_directory() . '/inc/cxz-subscribers-db.php';
 require_once get_stylesheet_directory() . '/inc/cxz-subscribers-ajax.php';

@@ -1,0 +1,150 @@
+/* 市场监控看板（/market）：亮色风格，独立于站点其它页面 */
+:root {
+	color-scheme: light;
+	--bg: #f4f6fa;
+	--surface: #ffffff;
+	--surface-2: #f7f9fc;
+	--line: #e3e8ef;
+	--text: #14171c;
+	--text-2: #52596a;
+	--text-3: #7a8294;
+	--accent: #2a78d6;
+	--accent-soft: #e8f1fc;
+	--accent-ink: #1b5aa6;
+	--star: #b26a00;
+	--star-soft: #fff4e0;
+	--key: #0f7a52;
+	--key-soft: #e3f5ec;
+	--warn: #b4372f;
+	--warn-soft: #fdecea;
+	--radius: 12px;
+	--shadow: 0 1px 2px rgba(20, 23, 28, .05), 0 4px 16px rgba(20, 23, 28, .04);
+	--font: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font: 15px/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+a { color: var(--accent-ink); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button, select, input { font: inherit; color: inherit; }
+.mm-logo {
+	width: 40px; height: 40px; border-radius: 10px; flex: none;
+	background: linear-gradient(135deg, #2a78d6, #1baf7a);
+	box-shadow: inset 0 0 0 3px rgba(255, 255, 255, .35);
+}
+
+/* ---------- 登录 ---------- */
+.mm-login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px;
+	background: radial-gradient(1200px 600px at 10% -10%, #dbe9fb 0, transparent 60%), radial-gradient(900px 500px at 110% 110%, #dcf3ea 0, transparent 60%), var(--bg); }
+.mm-login { width: 100%; max-width: 380px; }
+.mm-login-brand { display: flex; gap: 14px; align-items: center; margin-bottom: 22px; }
+.mm-login-brand h1 { margin: 0; font-size: 22px; letter-spacing: .5px; }
+.mm-login-brand p { margin: 0; color: var(--text-2); font-size: 13px; }
+.mm-login-form { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); display: grid; gap: 6px; }
+.mm-login-form label { font-size: 13px; color: var(--text-2); margin-top: 8px; }
+.mm-login-form input { height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); outline: none; }
+.mm-login-form input:focus { border-color: var(--accent); background: #fff; box-shadow: 0 0 0 3px var(--accent-soft); }
+.mm-login-form button { margin-top: 16px; height: 46px; border: 0; border-radius: 10px; background: var(--accent); color: #fff; font-weight: 600; cursor: pointer; }
+.mm-login-form button:hover { background: var(--accent-ink); }
+.mm-login-error { margin: 10px 0 0; padding: 8px 12px; border-radius: 8px; background: var(--warn-soft); color: var(--warn); font-size: 13px; }
+.mm-login-foot { text-align: center; color: var(--text-3); font-size: 12px; margin-top: 16px; }
+
+/* ---------- 顶栏 ---------- */
+.mm-top { background: var(--surface); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; }
+.mm-top-inner { max-width: 1200px; margin: 0 auto; padding: 12px 16px; display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.mm-brand { display: flex; gap: 12px; align-items: center; min-width: 0; }
+.mm-brand h1 { margin: 0; font-size: 18px; }
+.mm-brand p { margin: 0; color: var(--text-3); font-size: 12px; }
+.mm-top-actions { display: flex; gap: 10px; align-items: center; }
+.mm-top-actions form { margin: 0; }
+.mm-month { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--text-2); }
+.mm-month select, .mm-filter select, .mm-filter input {
+	height: 36px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); padding: 0 10px; }
+.mm-btn-ghost { height: 36px; padding: 0 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); cursor: pointer; color: var(--text-2); }
+.mm-btn-ghost:hover { border-color: var(--accent); color: var(--accent-ink); }
+
+/* ---------- 布局 ---------- */
+.mm-main { max-width: 1200px; margin: 0 auto; padding: 20px 16px 40px; display: grid; gap: 16px; }
+.mm-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; min-width: 0; }
+.mm-card h2 { margin: 0 0 4px; font-size: 16px; }
+.mm-card .mm-sub { margin: 0 0 14px; color: var(--text-3); font-size: 12px; }
+.mm-empty { text-align: center; color: var(--text-2); padding: 48px 18px; }
+.mm-grid-2 { display: grid; gap: 16px; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+.mm-grid-3 { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 900px) { .mm-grid-2, .mm-grid-3 { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- 数字卡 ---------- */
+.mm-kpis { display: grid; gap: 12px; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 1000px) { .mm-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .mm-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.mm-kpi { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow); min-width: 0; }
+.mm-kpi .k { color: var(--text-2); font-size: 13px; }
+.mm-kpi .v { font-size: 28px; font-weight: 700; line-height: 1.25; margin-top: 4px; font-variant-numeric: tabular-nums; }
+.mm-kpi .v small { font-size: 14px; font-weight: 500; color: var(--text-2); margin-left: 2px; }
+.mm-kpi .n { color: var(--text-3); font-size: 12px; margin-top: 2px; }
+.mm-kpi.is-accent { background: linear-gradient(135deg, #2a78d6, #1f63b5); border-color: transparent; color: #fff; }
+.mm-kpi.is-accent .k, .mm-kpi.is-accent .n, .mm-kpi.is-accent .v small { color: rgba(255, 255, 255, .85); }
+
+/* ---------- 推荐卡片 ---------- */
+.mm-recs { display: grid; gap: 12px; }
+.mm-rec { border: 1px solid var(--line); border-radius: 10px; padding: 14px; background: var(--surface); }
+.mm-rec:hover { border-color: #c9d6e8; }
+.mm-rec-head { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 4px; }
+.mm-rec-title { font-size: 16px; font-weight: 600; line-height: 1.5; color: var(--text); display: block; }
+.mm-rec-meta { color: var(--text-2); font-size: 13px; margin-top: 6px; }
+.mm-rec-sum { margin-top: 8px; padding: 8px 10px; background: var(--surface-2); border-left: 3px solid var(--accent); border-radius: 4px; font-size: 13px; color: var(--text); }
+.mm-stars { color: var(--star); letter-spacing: 1px; font-size: 13px; white-space: nowrap; }
+.mm-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.mm-tag { display: inline-block; padding: 1px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-ink); font-size: 12px; white-space: nowrap; }
+.mm-tag.is-key { background: var(--key-soft); color: var(--key); font-weight: 600; }
+.mm-tag.is-star { background: var(--star-soft); color: var(--star); }
+.mm-tag.is-progress { background: #f1ecfb; color: #5a3fb8; }
+.mm-tag.is-ref { background: #eef0f4; color: var(--text-2); }
+.mm-due { font-weight: 600; }
+.mm-due.is-soon { color: var(--warn); }
+
+/* ---------- 截止列表 ---------- */
+.mm-list { list-style: none; margin: 0; padding: 0; }
+.mm-list li { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); align-items: flex-start; }
+.mm-list li:last-child { border-bottom: 0; }
+.mm-list .d { flex: none; width: 56px; text-align: center; border-radius: 8px; background: var(--surface-2); padding: 4px 0; }
+.mm-list .d b { display: block; font-size: 18px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.mm-list .d span { font-size: 11px; color: var(--text-3); }
+.mm-list .d.is-soon { background: var(--warn-soft); color: var(--warn); }
+.mm-list .t { min-width: 0; font-size: 14px; }
+.mm-list .t small { display: block; color: var(--text-3); font-size: 12px; }
+.mm-none { color: var(--text-3); font-size: 13px; padding: 12px 0; }
+
+/* ---------- 图表 ---------- */
+.mm-chart { width: 100%; display: block; overflow: visible; }
+.mm-chart text { font: 11px var(--font); fill: var(--text-3); }
+.mm-chart .grid { stroke: var(--line); stroke-width: 1; }
+.mm-chart .bar { fill: var(--accent); }
+.mm-chart .bar-2 { fill: #a9c8ef; }
+.mm-chart .hit { fill: transparent; cursor: default; }
+.mm-chart .hit:hover + .bar, .mm-chart .bar.is-hover { fill: var(--accent-ink); }
+.mm-legend { display: flex; gap: 14px; font-size: 12px; color: var(--text-2); margin: -6px 0 8px; flex-wrap: wrap; }
+.mm-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.mm-hbars { display: grid; gap: 8px; }
+.mm-hbar { display: grid; grid-template-columns: 88px minmax(0, 1fr) 40px; gap: 8px; align-items: center; font-size: 13px; }
+.mm-hbar .l { color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mm-hbar .track { display: block; height: 12px; background: var(--surface-2); border-radius: 6px; overflow: hidden; }
+.mm-hbar .fill { display: block; height: 100%; background: var(--accent); border-radius: 0 4px 4px 0; min-width: 2px; }
+.mm-hbar .c { text-align: right; font-variant-numeric: tabular-nums; color: var(--text); }
+.mm-tip { position: fixed; z-index: 50; pointer-events: none; background: #fff; border: 1px solid var(--line); box-shadow: 0 6px 20px rgba(20, 23, 28, .12); border-radius: 8px; padding: 8px 10px; font-size: 12px; color: var(--text); white-space: nowrap; }
+.mm-tip b { display: block; margin-bottom: 2px; }
+
+/* ---------- 表格 ---------- */
+.mm-filter { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.mm-filter input { flex: 1 1 200px; min-width: 0; }
+.mm-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+.mm-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 760px; }
+.mm-table th, .mm-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+.mm-table th { background: var(--surface-2); color: var(--text-2); font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none; }
+.mm-table th[aria-sort="ascending"]::after { content: " ↑"; }
+.mm-table th[aria-sort="descending"]::after { content: " ↓"; }
+.mm-table tr:last-child td { border-bottom: 0; }
+.mm-table td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mm-table td.nowrap { white-space: nowrap; }
+.mm-count { color: var(--text-3); font-size: 12px; margin-top: 8px; }
+.mm-foot { color: var(--text-3); font-size: 12px; text-align: center; line-height: 1.8; padding-top: 4px; }
