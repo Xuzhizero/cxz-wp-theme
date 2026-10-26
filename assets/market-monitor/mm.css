@@ -148,3 +148,9 @@ button, select, input { font: inherit; color: inherit; }
 .mm-table td.nowrap { white-space: nowrap; }
 .mm-count { color: var(--text-3); font-size: 12px; margin-top: 8px; }
 .mm-foot { color: var(--text-3); font-size: 12px; text-align: center; line-height: 1.8; padding-top: 4px; }
+
+/* ---------- 竞争对手中标（2026-10-26） ---------- */
+.mm-muted { color: var(--text-3); font-weight: 400; }
+.mm-comp-sum { min-width: 680px; }
+.mm-comp-filter { margin: 14px 0 4px; }
+.mm-list .d.mm-comp-who { width: 76px; font-size: 12px; font-weight: 600; color: var(--warn); background: var(--warn-soft); padding: 6px 4px; line-height: 1.4; }

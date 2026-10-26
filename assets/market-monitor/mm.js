@@ -8,7 +8,9 @@
 	var tip = document.getElementById('mm-tip');
 	var tenders = D.tenders || [];
 	var runs = D.runs || [];
-	var today = (D.today || new Date().toISOString().slice(0, 10));
+	// 倒计时按看板打开当天计算（周末和节假日不推送，快照日期可能是几天前）
+	var now0 = new Date();
+	var today = now0.getFullYear() + '-' + ('0' + (now0.getMonth() + 1)).slice(-2) + '-' + ('0' + now0.getDate()).slice(-2);
 
 	/* ---------- 工具 ---------- */
 	function esc(s) {
@@ -73,6 +75,7 @@
 		var html = '';
 		html += kpis(T, R, rec, upcoming, label);
 		html += '<div class="mm-grid-2">' + recCard(rec, label) + dueCard(upcoming) + '</div>';
+		html += competitorCard(label);
 		html += dailyCard(R, T, label);
 		html += '<div class="mm-grid-3">' +
 			barsCard('地区分布', '按城市统计的相关公告', countBy(T, function (t) { return t.city; }).slice(0, 8)) +
@@ -84,6 +87,7 @@
 		app.innerHTML = html;
 		bindTable();
 		bindDaily();
+		bindCompetitors();
 		drawTable();
 	}
 
@@ -150,6 +154,53 @@
 				esc(t.city || '') + ' · ' + esc(fmtMoney(t.amount_wan)) + (t.section === 'recommend' ? ' · 推荐' : '') + '</small></div></li>';
 		}).join('') + '</ul>' : '<p class="mm-none">目前没有未截止的公告。</p>';
 		return '<section class="mm-card"><h2>即将截止</h2><p class="mm-sub">全部相关公告中尚未截止的，按剩余天数排序</p>' + body + '</section>';
+	}
+
+	/* ---------- 竞争对手中标 ---------- */
+	var C = D.competitors || null;
+	var compState = { who: '', all: false };
+	function cMoney(w) { return w ? fmtMoney(w) : '金额未公开'; }
+	function competitorCard(label) {
+		if (!C) { return ''; }
+		var inMonth = (C.wins || []).filter(function (w) { return current === 'all' || month(w.date) === current; }).length;
+		var rows = (C.summary || []).map(function (s) {
+			return '<tr><td><b>' + esc(s.short) + '</b><br><small class="mm-muted">' + esc(s.name) + '</small></td><td class="nowrap">' + esc(s.kind || '') +
+				'</td><td class="num">' + s.projects_12m + '</td><td class="num">' + esc(s.amount_12m ? fmtMoney(s.amount_12m) : '—') +
+				'</td><td class="num">' + s.projects_24m + '</td><td class="num">' + esc(s.amount_24m ? fmtMoney(s.amount_24m) : '—') +
+				'</td><td class="nowrap">' + esc(s.latest || '—') + '</td></tr>';
+		}).join('');
+		var names = (C.summary || []).filter(function (s) { return s.projects_24m; }).map(function (s) { return s.short; });
+		return '<section class="mm-card"><h2>竞争对手中标</h2><p class="mm-sub">监测 ' + (C.count || 0) + ' 家竞争对手；只统计与我们产品和应用场景相关的中标、合同公告（城市、金额不限），自 ' +
+			esc(C.since || '') + ' 起；同一项目的中标与合同合并为一个项目。' + esc(label) + '新增 ' + inMonth + ' 个项目。</p>' +
+			'<div class="mm-table-wrap"><table class="mm-table mm-comp-sum"><thead><tr><th scope="col">竞争对手</th><th scope="col">性质</th>' +
+			'<th scope="col">近 12 个月项目</th><th scope="col">近 12 个月金额</th><th scope="col">近 2 年项目</th><th scope="col">近 2 年金额</th><th scope="col">最近中标</th></tr></thead><tbody>' +
+			rows + '</tbody></table></div>' +
+			'<div class="mm-filter mm-comp-filter"><select id="mm-comp-who" aria-label="竞争对手"><option value="">全部竞争对手</option>' +
+			names.map(function (n) { return '<option>' + esc(n) + '</option>'; }).join('') + '</select></div>' +
+			'<ul class="mm-list" id="mm-comp-list"></ul><div class="mm-count" id="mm-comp-more"></div></section>';
+	}
+	function drawCompetitors() {
+		var el = document.getElementById('mm-comp-list');
+		if (!el) { return; }
+		var wins = (C.wins || []).filter(function (w) { return !compState.who || (w.competitors || []).indexOf(compState.who) >= 0; });
+		var shown = compState.all ? wins : wins.slice(0, 12);
+		el.innerHTML = shown.map(function (w) {
+			return '<li><div class="d mm-comp-who">' + (w.competitors || []).map(esc).join('<br>') + '</div><div class="t">' +
+				titleLink(w, '') + '<small>' + esc(w.buyer || '采购单位未写') + ' · ' + esc(w.city || w.province || '') + ' · ' + esc(cMoney(w.amount_wan)) +
+				' · ' + esc(w.stage || '') + ' ' + esc(w.date || '') + (w.notices > 1 ? ' · 含中标与合同 ' + w.notices + ' 条公告' : '') + '</small></div></li>';
+		}).join('') || '<li class="mm-none">没有记录</li>';
+		var more = document.getElementById('mm-comp-more');
+		more.innerHTML = wins.length > 12 ? '<button type="button" class="mm-btn-ghost" id="mm-comp-toggle">' +
+			(compState.all ? '收起' : '显示全部 ' + wins.length + ' 个项目') + '</button>' : '共 ' + wins.length + ' 个项目';
+		var t = document.getElementById('mm-comp-toggle');
+		if (t) { t.addEventListener('click', function () { compState.all = !compState.all; drawCompetitors(); }); }
+	}
+	function bindCompetitors() {
+		var sel = document.getElementById('mm-comp-who');
+		if (!sel) { return; }
+		sel.value = compState.who;
+		sel.addEventListener('change', function () { compState.who = sel.value; compState.all = false; drawCompetitors(); });
+		drawCompetitors();
 	}
 
 	/* 每日检索量：浅色柱 = 扫描公告数，深色柱 = 其中的相关公告（同一坐标轴） */
