@@ -137,6 +137,11 @@ button, select, input { font: inherit; color: inherit; }
 /* ---------- 表格 ---------- */
 .mm-filter { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
 .mm-filter input { flex: 1 1 200px; min-width: 0; }
+.mm-filter .mm-range { display: inline-flex; gap: 6px; align-items: center; color: var(--text-3); font-size: 13px; }
+.mm-filter .mm-range[hidden] { display: none; }
+.mm-filter .mm-range input { flex: 0 1 150px; }
+.mm-export { margin-left: auto; color: var(--accent-ink); }
+@media (max-width: 560px) { .mm-filter-records select, .mm-filter-records .mm-range, .mm-export { flex: 1 1 calc(50% - 4px); margin-left: 0; } .mm-filter .mm-range input { flex: 1 1 0; } }
 .mm-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
 .mm-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 760px; }
 .mm-table th, .mm-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }

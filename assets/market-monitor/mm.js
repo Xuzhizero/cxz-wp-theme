@@ -59,7 +59,7 @@
 	}
 
 	/* ---------- 渲染 ---------- */
-	var tableState = { q: '', city: '', stage: '', section: '', sort: 'found', dir: -1 };
+	var tableState = { q: '', city: '', stage: '', section: '', time: '', from: '', to: '', sort: 'found', dir: -1 };
 
 	function render() {
 		var inMonth = function (d) { return current === 'all' || month(d) === current; };
@@ -315,11 +315,17 @@
 	}
 	function tableCard() {
 		return '<section class="mm-card"><h2>全部记录</h2><p class="mm-sub">推荐关注与供参考的全部公告（不受上方月份限制）；点表头排序</p>' +
-			'<div class="mm-filter">' +
+			'<div class="mm-filter mm-filter-records">' +
 			'<input type="search" id="mm-q" placeholder="搜索标题、采购单位" value="' + esc(tableState.q) + '" aria-label="搜索">' +
 			'<select id="mm-f-city" aria-label="城市">' + options(uniq(function (t) { return t.city; }), '全部城市') + '</select>' +
 			'<select id="mm-f-stage" aria-label="阶段">' + options(uniq(function (t) { return t.stage; }), '全部阶段') + '</select>' +
 			'<select id="mm-f-section" aria-label="类别"><option value="">推荐 + 供参考</option><option value="recommend">只看推荐</option><option value="reference">只看供参考</option></select>' +
+			'<select id="mm-f-time" aria-label="发现日期范围"><option value="">全部时间</option><option value="7">近 7 天</option><option value="30">近 30 天</option>' +
+			'<option value="90">近 90 天</option><option value="month">本月</option><option value="custom">自定义日期…</option></select>' +
+			'<span class="mm-range" id="mm-range"' + (tableState.time === 'custom' ? '' : ' hidden') + '>' +
+			'<input type="date" id="mm-f-from" aria-label="开始日期" value="' + esc(tableState.from) + '"><span>至</span>' +
+			'<input type="date" id="mm-f-to" aria-label="结束日期" value="' + esc(tableState.to) + '"></span>' +
+			'<button type="button" class="mm-btn-ghost mm-export" id="mm-export" title="按当前筛选和排序导出">导出 CSV</button>' +
 			'</div><div class="mm-table-wrap"><table class="mm-table"><thead><tr>' +
 			th('found', '发现日期') + th('stars', '等级') + th('title', '公告') + th('buyer', '采购单位') + th('city', '城市') +
 			th('stage', '阶段') + th('amount_wan', '预算') + th('due', '截止') +
@@ -329,11 +335,16 @@
 	function bindTable() {
 		var q = document.getElementById('mm-q');
 		q.addEventListener('input', function () { tableState.q = q.value; drawTable(); });
-		[['mm-f-city', 'city'], ['mm-f-stage', 'stage'], ['mm-f-section', 'section']].forEach(function (p) {
+		[['mm-f-city', 'city'], ['mm-f-stage', 'stage'], ['mm-f-section', 'section'], ['mm-f-time', 'time'], ['mm-f-from', 'from'], ['mm-f-to', 'to']].forEach(function (p) {
 			var el = document.getElementById(p[0]);
 			el.value = tableState[p[1]];
-			el.addEventListener('change', function () { tableState[p[1]] = el.value; drawTable(); });
+			el.addEventListener('change', function () {
+				tableState[p[1]] = el.value;
+				document.getElementById('mm-range').hidden = tableState.time !== 'custom';
+				drawTable();
+			});
 		});
+		document.getElementById('mm-export').addEventListener('click', exportCsv);
 		Array.prototype.forEach.call(app.querySelectorAll('.mm-table th[data-k]'), function (h) {
 			h.addEventListener('click', function () {
 				var k = h.getAttribute('data-k');
@@ -343,11 +354,25 @@
 			});
 		});
 	}
-	function drawTable() {
-		var s = tableState, q = s.q.trim().toLowerCase();
+	function shiftDay(d, n) {
+		var x = new Date(Date.parse(d) + n * 86400000);
+		return x.toISOString().slice(0, 10);
+	}
+	// 发现日期范围 [from, to]，空字符串表示不限
+	function timeRange() {
+		var s = tableState;
+		if (s.time === 'custom') { return [s.from, s.to]; }
+		if (s.time === 'month') { return [today.slice(0, 8) + '01', '']; }
+		if (s.time) { return [shiftDay(today, 1 - Number(s.time)), '']; }
+		return ['', ''];
+	}
+	function tableRows() {
+		var s = tableState, q = s.q.trim().toLowerCase(), r = timeRange();
 		var rows = tenders.filter(function (t) {
+			var f = t.found || '';
 			return (!q || (String(t.title) + String(t.buyer)).toLowerCase().indexOf(q) >= 0) &&
-				(!s.city || t.city === s.city) && (!s.stage || t.stage === s.stage) && (!s.section || t.section === s.section);
+				(!s.city || t.city === s.city) && (!s.stage || t.stage === s.stage) && (!s.section || t.section === s.section) &&
+				(!r[0] || f >= r[0]) && (!r[1] || f <= r[1]);
 		});
 		var key = function (t) {
 			if (s.sort === 'due') { var d = due(t); return d ? d.date : ''; }
@@ -358,6 +383,10 @@
 			var x = key(a), y = key(b);
 			return (x > y ? 1 : x < y ? -1 : 0) * s.dir;
 		});
+		return rows;
+	}
+	function drawTable() {
+		var s = tableState, rows = tableRows();
 		document.getElementById('mm-tbody').innerHTML = rows.map(function (t) {
 			var d = due(t);
 			return '<tr><td class="nowrap">' + esc(t.found) + '</td><td class="nowrap"><span class="mm-stars">' + stars(t.stars) + '</span>' +
@@ -370,6 +399,29 @@
 		Array.prototype.forEach.call(app.querySelectorAll('.mm-table th[data-k]'), function (h) {
 			h.setAttribute('aria-sort', h.getAttribute('data-k') === s.sort ? (s.dir > 0 ? 'ascending' : 'descending') : 'none');
 		});
+	}
+
+	function csvCell(v) {
+		v = v == null ? '' : String(v);
+		if (/^[=+\-@\t\r]/.test(v)) { v = "'" + v; } // 防止 Excel 把内容当公式
+		return /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+	}
+	function exportCsv() {
+		var head = ['发现日期', '等级（星）', '类别', '重点客户', '公告标题', '采购单位', '代理机构', '省份', '城市', '阶段', '预算（万元）', '发布日期', '截止日期', '截止类型', '公告链接'];
+		var lines = tableRows().map(function (t) {
+			var d = due(t);
+			return [t.found, t.stars || 1, t.section === 'reference' ? '供参考' : '推荐关注', t.key_customer ? '是' : '', t.title, t.buyer, t.agency,
+				t.province, t.city, t.stage, t.amount_wan == null ? '' : t.amount_wan, (t.published || '').slice(0, 10),
+				d ? d.date : '', d ? d.kind : '', safeUrl(t.url)].map(csvCell).join(',');
+		});
+		// 加 BOM，Excel 直接打开不乱码
+		var blob = new Blob(['\ufeff' + [head.join(',')].concat(lines).join('\r\n')], { type: 'text/csv;charset=utf-8' });
+		var a = document.createElement('a');
+		a.href = URL.createObjectURL(blob);
+		a.download = '市场监控-全部记录-' + today + '.csv';
+		document.body.appendChild(a);
+		a.click();
+		setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 0);
 	}
 
 	function foot() {
