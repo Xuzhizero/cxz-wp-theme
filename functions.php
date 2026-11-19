@@ -212,6 +212,9 @@ add_filter( 'template_include', function ( $template ) {
 // ===== /market：市场监控看板（领导专用，只读） =====
 require_once get_stylesheet_directory() . '/inc/cxz-market-monitor.php';
 
+// ===== /wuxizhonghe：无锡众和码头辅助靠泊系统 · 岸端管理平台（仿真演示） =====
+require_once get_stylesheet_directory() . '/inc/cxz-wuxi-zhonghe.php';
+
 // ===== Newsletter Subscription System =====
 require_once get_stylesheet_directory() . '/inc/cxz-subscribers-db.php';
 require_once get_stylesheet_directory() . '/inc/cxz-subscribers-ajax.php';
