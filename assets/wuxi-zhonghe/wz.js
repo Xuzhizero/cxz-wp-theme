@@ -1,9 +1,11 @@
 /* 无锡众和码头辅助靠泊系统 · 岸端管理平台（仿真演示）
- * 每 2 s 读取 ?wz=state；帧号变化时再取 ?wz=frame。没有来源的数据显示“未接入”，不编造。 */
+ * 每 2 s 读取 ?wz=state；帧号变化时再取 ?wz=frame。没有来源的数据显示“未接入”，不编造。
+ * UE 实时运行时（state 里有 20 s 内的视频段）改为每 1 s 轮询，逐段取 ?wz=seg&n= 连续播放 5 帧/秒视频，
+ * 叠加框与读数按视频时间取该段内的测距结果。 */
 (function () {
 	'use strict';
 	var BASE = window.WZ_BASE || '/wuxizhonghe/';
-	var POLL_MS = 2000;
+	var POLL_MS = 2000, POLL_VIDEO_MS = 1000;
 	var lastSeq = -1;
 	var latest = null;
 	var $ = function (id) { return document.getElementById(id); };
@@ -144,25 +146,108 @@
 		$('wz-log').innerHTML = rows.join('') || '<tr><td colspan="5" style="text-align:center;color:#6a7a8c">暂无记录</td></tr>';
 	}
 
+	/* ---------- 实时视频（5 帧/秒 H.264 段，双 video 元素无缝切换） ---------- */
+	var SEG_STALE_S = 20, BUF_START = 2, BUF_MAX = 4;
+	var lastSegN = 0, fetching = false, pend = [], buf = [], cur = null, vids = [], active = 0, vstate = null, vkey = '';
+
+	function segFresh(p) {
+		var s = (p && p.segments) || [];
+		return s.length > 0 && p.server_time - s[s.length - 1].at <= SEG_STALE_S;
+	}
+	function makeVideos() {
+		if (vids.length) return;
+		var box = $('wz-video'), svg = $('wz-overlay');
+		for (var i = 0; i < 2; i++) {
+			var v = document.createElement('video');
+			v.muted = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.setAttribute('muted', '');
+			v.preload = 'auto'; v.className = 'wz-vid'; v.hidden = true;
+			v.addEventListener('ended', onEnded);
+			box.insertBefore(v, svg);
+			vids.push(v);
+		}
+	}
+	function queueSegments(p) {
+		var list = p.segments || [];
+		if (!lastSegN && list.length > 3) lastSegN = list[list.length - 4].n;   // join near the live edge
+		list.forEach(function (m) { if (m.n > lastSegN) { lastSegN = m.n; pend.push(m); } });
+		pump();
+	}
+	function pump() {
+		if (fetching || !pend.length) return;
+		var m = pend.shift();
+		fetching = true;
+		fetch(BASE + '?wz=seg&n=' + m.n, { credentials: 'same-origin' })
+			.then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.blob(); })
+			.then(function (b) {
+				buf.push({ meta: m, url: URL.createObjectURL(b) });
+				while (buf.length > BUF_MAX) URL.revokeObjectURL(buf.shift().url);   // keep the delay bounded
+				if (cur) preload(); else if (buf.length >= BUF_START) startNext();
+			})
+			.catch(function () {})
+			.then(function () { fetching = false; pump(); });
+	}
+	function preload() {
+		var v = vids[1 - active];
+		if (buf.length && v.dataset.n !== String(buf[0].meta.n)) { v.src = buf[0].url; v.dataset.n = String(buf[0].meta.n); v.load(); }
+	}
+	function startNext() {
+		if (!buf.length) { cur = null; return; }          // stall: the last frame stays on screen
+		var seg = buf.shift(), v = vids[1 - active], old = vids[active];
+		if (v.dataset.n !== String(seg.meta.n)) { v.src = seg.url; v.dataset.n = String(seg.meta.n); }
+		v.hidden = false;
+		var pr = v.play();
+		if (pr && pr.catch) pr.catch(function () {});
+		if (old !== v) old.hidden = true;
+		if (cur) URL.revokeObjectURL(cur.url);
+		active = 1 - active;
+		cur = seg;
+		$('wz-img').hidden = true;
+		$('wz-empty').hidden = true;
+		preload();
+	}
+	function onEnded(e) { if (e.target === vids[active]) startNext(); }
+	function syncState() {
+		if (cur && vids.length) {
+			var t = vids[active].currentTime, s = null;
+			cur.meta.states.forEach(function (r) { if (r.t <= t + 0.05) s = r.state; });
+			if (s) {
+				var k = cur.meta.n + ':' + s.seq;
+				if (k !== vkey) { vkey = k; vstate = s; if (latest) render(latest); }
+			}
+		}
+		requestAnimationFrame(syncState);
+	}
+	requestAnimationFrame(syncState);
+
 	function render(payload) {
-		var s = payload.state;
+		var video = segFresh(payload);
+		var s = video && vstate ? vstate : payload.state;
 		var link = linkInfo(payload);
 		renderLeft(s, link);
 		renderVideo(s, link);
 		renderCards(s, link, payload);
 		renderRight(s, payload);
+		$('wz-period').textContent = video ? '视频 5 帧/秒 · 测距 1 次/秒' : $('wz-period').textContent;
+		if (video) return;
+		vids.forEach(function (v) { v.hidden = true; });
 		if (s && s.seq !== lastSeq) { lastSeq = s.seq; loadFrame(s.seq); }
 	}
 
 	function poll() {
+		var video = false;
 		fetch(BASE + '?wz=state&t=' + Date.now(), { credentials: 'same-origin', cache: 'no-store' })
 			.then(function (r) {
 				if (r.status === 401) { location.reload(); throw new Error('logged out'); }
 				return r.json();
 			})
-			.then(function (p) { latest = p; render(p); })
+			.then(function (p) {
+				latest = p;
+				video = segFresh(p);
+				if (video) { makeVideos(); queueSegments(p); }
+				render(p);
+			})
 			.catch(function () { if (latest) render(latest); })
-			.then(function () { setTimeout(poll, POLL_MS); });
+			.then(function () { setTimeout(poll, video ? POLL_VIDEO_MS : POLL_MS); });
 	}
 	render({ state: null, history: [], received_at: 0, server_time: 0 });
 	poll();

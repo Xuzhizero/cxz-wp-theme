@@ -4,6 +4,9 @@
  *
  * - 画面与数据：taishiji 上的 UE5 仿真与测距链（检测 → 掩膜 → 稠密立体 → 帧间校核）每 ≤5 s 把上位相机画面（JPEG）
  *   和结果签名推送到 /wp-json/wz/v1/frame；本页只读展示，浏览器每 2 s 轮询。
+ * - 实时视频（1.1.0）：UE 实时运行时每 2 s 签名推送一段 5 帧/秒的 H.264 视频（/wp-json/wz/v1/segment，正文为
+ *   一行 JSON 头 + 换行 + MP4），附该段内的测距结果；文件存在 uploads 下禁止直接访问的目录，只保留最近 15 段，
+ *   登录后经 ?wz=seg&n= 读取。页面连续播放，叠加框与读数按视频时间切换。
  * - 登录：独立账号密码，不用 WordPress 账号；密码只以 password_hash 存在数据库里。
  * - 本仓库是公开的：这里只有一次性初始化令牌的 SHA-256，没有任何密钥或密码。
  * - 结构与 /market（inc/cxz-market-monitor.php）相同，名字前缀 wz。
@@ -15,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'CXZ_WZ_VERSION', '1.0.0' );
+define( 'CXZ_WZ_VERSION', '1.1.0' );
 define( 'CXZ_WZ_PATH', '/wuxizhonghe' );
 define( 'CXZ_WZ_COOKIE', 'cxz_wz_session' );
 define( 'CXZ_WZ_SESSION_TTL', 12 * HOUR_IN_SECONDS );
@@ -25,6 +28,9 @@ define( 'CXZ_WZ_MAX_BODY', 3 * 1024 * 1024 );
 define( 'CXZ_WZ_MAX_JPEG', 1536 * 1024 );
 define( 'CXZ_WZ_CLOCK_SKEW', 300 );
 define( 'CXZ_WZ_HISTORY', 60 );
+define( 'CXZ_WZ_SEG_KEEP', 15 );
+define( 'CXZ_WZ_SEG_LIST', 6 );
+define( 'CXZ_WZ_MAX_MP4', 1536 * 1024 );
 
 // 一次性初始化令牌的 SHA-256（令牌本身只在 taishiji 的本地配置里）。测试站可在 wp-config.php 里覆盖。
 if ( ! defined( 'CXZ_WZ_SETUP_TOKEN_SHA256' ) ) {
@@ -52,6 +58,28 @@ function cxz_wz_is_setup(): bool {
 function cxz_wz_client_key(): string {
 	$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? (string) $_SERVER['REMOTE_ADDR'] : '';
 	return substr( hash( 'sha256', $ip . wp_salt( 'nonce' ) ), 0, 32 );
+}
+
+/* ------------------------------------------------------------------ 视频段文件 */
+
+/** 视频段目录（uploads 下，名字带站点盐，.htaccess 禁止直接访问；只经登录后的 ?wz=seg 读取）。 */
+function cxz_wz_seg_dir(): string {
+	$up  = wp_upload_dir( null, false );
+	$dir = trailingslashit( $up['basedir'] ) . 'cxz-wz-live-' . substr( hash( 'sha256', wp_salt( 'auth' ) . 'wz-seg' ), 0, 12 );
+	if ( ! is_dir( $dir ) ) {
+		wp_mkdir_p( $dir );
+		file_put_contents( $dir . '/.htaccess', "Require all denied\nDeny from all\n" );
+		file_put_contents( $dir . '/index.php', "<?php\n// Silence is golden.\n" );
+	}
+	return $dir;
+}
+
+function cxz_wz_seg_file( int $n ): string {
+	return cxz_wz_seg_dir() . '/' . $n . '.mp4';
+}
+
+function cxz_wz_segments(): array {
+	return array_values( (array) json_decode( (string) cxz_wz_get( 'segments', '[]' ), true ) );
 }
 
 /* ------------------------------------------------------------------ 登录会话 */
@@ -149,6 +177,7 @@ function cxz_wz_state_payload(): array {
 		'received_at' => (int) cxz_wz_get( 'received_at', 0 ),
 		'state'       => is_array( $state ) ? $state : null,
 		'history'     => array_values( (array) json_decode( (string) cxz_wz_get( 'history', '[]' ), true ) ),
+		'segments'    => array_slice( cxz_wz_segments(), -CXZ_WZ_SEG_LIST ),
 	);
 }
 
@@ -179,7 +208,7 @@ add_action( 'template_redirect', function () {
 	}
 
 	$what = isset( $_GET['wz'] ) ? (string) $_GET['wz'] : '';
-	if ( 'state' === $what || 'frame' === $what ) {
+	if ( 'state' === $what || 'frame' === $what || 'seg' === $what ) {
 		if ( ! cxz_wz_logged_in() ) {
 			status_header( 401 );
 			header( 'Content-Type: application/json; charset=utf-8' );
@@ -189,6 +218,19 @@ add_action( 'template_redirect', function () {
 		if ( 'state' === $what ) {
 			header( 'Content-Type: application/json; charset=utf-8' );
 			echo wp_json_encode( cxz_wz_state_payload(), JSON_UNESCAPED_UNICODE );
+			exit;
+		}
+		if ( 'seg' === $what ) {
+			$n    = isset( $_GET['n'] ) ? absint( $_GET['n'] ) : 0;
+			$file = cxz_wz_seg_file( $n );
+			if ( $n < 1 || ! is_file( $file ) ) {
+				status_header( 404 );
+				exit;
+			}
+			header( 'Content-Type: video/mp4' );
+			header( 'Content-Length: ' . filesize( $file ) );
+			header( 'Cache-Control: private, max-age=300', true );
+			readfile( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions -- MP4 from a signed push
 			exit;
 		}
 		$jpeg = base64_decode( (string) cxz_wz_get( 'frame', '' ), true );
@@ -362,6 +404,74 @@ add_action( 'rest_api_init', function () {
 			) );
 			cxz_wz_set( 'history', wp_json_encode( array_slice( $hist, 0, CXZ_WZ_HISTORY ) ) );
 			return array( 'ok' => true, 'seq' => $state['seq'] );
+		},
+	) );
+
+	// 一段视频：正文 = 一行 JSON 头 {"seg": {...}, "states": [{"t": 秒, "state": {...}}]} + "\n" + MP4（签名覆盖整个正文）
+	register_rest_route( 'wz/v1', '/segment', array(
+		'methods'             => 'POST',
+		'permission_callback' => 'cxz_wz_verify_signature',
+		'callback'            => function ( WP_REST_Request $req ) {
+			$body = (string) $req->get_body();
+			$cut  = strpos( $body, "\n" );
+			$head = false === $cut ? null : json_decode( substr( $body, 0, $cut ), true );
+			$mp4  = false === $cut ? '' : substr( $body, $cut + 1 );
+			if ( ! is_array( $head ) || ! isset( $head['seg'] ) || ! is_array( $head['seg'] ) ) {
+				return new WP_Error( 'wz_bad_segment', 'header line with seg required', array( 'status' => 400 ) );
+			}
+			if ( strlen( $mp4 ) < 64 || strlen( $mp4 ) > CXZ_WZ_MAX_MP4 || substr( $mp4, 4, 4 ) !== 'ftyp' ) {
+				return new WP_Error( 'wz_bad_mp4', 'MP4 under 1.5 MB required', array( 'status' => 400 ) );
+			}
+			$seg    = $head['seg'];
+			$dur    = isset( $seg['dur'] ) && is_numeric( $seg['dur'] ) ? max( 0.2, min( 10.0, (float) $seg['dur'] ) ) : 2.0;
+			$states = array();
+			foreach ( array_slice( (array) ( $head['states'] ?? array() ), 0, 20 ) as $row ) {
+				if ( is_array( $row ) && isset( $row['state'] ) && is_array( $row['state'] ) ) {
+					$t        = isset( $row['t'] ) && is_numeric( $row['t'] ) ? max( 0.0, min( $dur, (float) $row['t'] ) ) : 0.0;
+					$states[] = array( 't' => $t, 'state' => cxz_wz_clean_state( $row['state'] ) );
+				}
+			}
+			$n = (int) cxz_wz_get( 'seg_n', 0 ) + 1;
+			if ( false === file_put_contents( cxz_wz_seg_file( $n ), $mp4 ) ) {
+				return new WP_Error( 'wz_store', 'cannot store segment', array( 'status' => 500 ) );
+			}
+			cxz_wz_set( 'seg_n', $n );
+			$list   = cxz_wz_segments();
+			$list[] = array(
+				'n'        => $n,
+				'at'       => time(),
+				't0'       => isset( $seg['t0'] ) && is_numeric( $seg['t0'] ) ? (float) $seg['t0'] : 0.0,
+				'dur'      => $dur,
+				'fps'      => isset( $seg['fps'] ) ? max( 1, min( 30, (int) $seg['fps'] ) ) : 5,
+				'frames'   => isset( $seg['frames'] ) ? max( 1, min( 300, (int) $seg['frames'] ) ) : 10,
+				'sequence' => is_string( $seg['sequence'] ?? null ) ? mb_substr( $seg['sequence'], 0, 40 ) : '',
+				'states'   => $states,
+			);
+			while ( count( $list ) > CXZ_WZ_SEG_KEEP ) {
+				$old = array_shift( $list );
+				@unlink( cxz_wz_seg_file( (int) $old['n'] ) ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
+			}
+			cxz_wz_set( 'segments', wp_json_encode( $list, JSON_UNESCAPED_UNICODE ) );
+			cxz_wz_set( 'received_at', time() );
+			if ( $states ) {
+				$hist = (array) json_decode( (string) cxz_wz_get( 'history', '[]' ), true );
+				foreach ( $states as $row ) {
+					$s = $row['state'];
+					array_unshift( $hist, array(
+						'at'     => $s['at'],
+						'source' => $s['source'],
+						'whole'  => $s['distance']['whole'],
+						'fore'   => $s['distance']['fore'],
+						'aft'    => $s['distance']['aft'],
+						'speed'  => $s['speed'],
+						'grade'  => $s['grade'],
+					) );
+				}
+				cxz_wz_set( 'history', wp_json_encode( array_slice( $hist, 0, CXZ_WZ_HISTORY ) ) );
+				$last = end( $states );
+				cxz_wz_set( 'state', wp_json_encode( $last['state'], JSON_UNESCAPED_UNICODE ) );
+			}
+			return array( 'ok' => true, 'n' => $n );
 		},
 	) );
 
